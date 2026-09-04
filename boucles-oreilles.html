@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="view-transition" content="same-origin">
+  <title>Boucles d'oreilles IZAALY — Créations faites main</title>
+  <meta name="description" content="Découvrez les boucles d'oreilles IZAALY : créations symboliques faites main, légères et intemporelles.">
+  <meta property="og:title" content="Boucles d'oreilles IZAALY — Créations faites main">
+  <meta property="og:description" content="Des boucles d'oreilles pensées pour accompagner le visage avec légèreté.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">IZAALY</a>
+      <nav class="nav" aria-label="Navigation principale">
+        <ul class="nav__list">
+          <li><a href="bagues.html" class="nav__link link-underline">Collections</a></li>
+          <li><a href="index.html#histoire" class="nav__link link-underline">À propos</a></li>
+          <li><a href="index.html#contact" class="nav__link link-underline">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="https://www.instagram.com/izaaly.collections/" class="header__icon-btn" data-instagram target="_blank" rel="noopener" aria-label="IZAALY sur Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+        <button class="header__icon-btn" data-cart-open aria-label="Ouvrir le panier">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="header__cart-count" data-cart-count>0</span>
+        </button>
+        <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <ul class="mobile-menu__list">
+      <li><a href="index.html" class="mobile-menu__link">Accueil</a></li>
+      <li><a href="bagues.html" class="mobile-menu__link">Bagues</a></li>
+      <li><a href="colliers.html" class="mobile-menu__link">Colliers</a></li>
+      <li><a href="boucles-oreilles.html" class="mobile-menu__link">Boucles d'oreilles</a></li>
+      <li><a href="index.html#histoire" class="mobile-menu__link">À propos</a></li>
+      <li><a href="index.html#contact" class="mobile-menu__link">Contact</a></li>
+    </ul>
+    <div class="mobile-menu__meta">
+      <a href="https://www.instagram.com/izaaly.collections/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="catalog-hero">
+      <div class="container">
+        <h1>Boucles d'oreilles</h1>
+        <p>Légères, intemporelles, pensées pour durer.</p>
+      </div>
+    </section>
+
+    <section class="section section--blanc section--tight">
+      <div class="container">
+        <div class="catalog-toolbar">
+          <div class="catalog-filters">
+            <div class="filter-group">
+              <label for="sort">Trier</label>
+              <select id="sort" class="filter-select" data-sort>
+                <option value="featured">Nos préférées</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="name-asc">Nom (A–Z)</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="price">Prix</label>
+              <select id="price" class="filter-select" data-filter-price>
+                <option value="all">Tous les prix</option>
+                <option value="under-20">Moins de 20 €</option>
+                <option value="20-25">20 € – 25 €</option>
+                <option value="over-25">Plus de 25 €</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="availability">Disponibilité</label>
+              <select id="availability" class="filter-select" data-filter-availability>
+                <option value="all">Toutes</option>
+                <option value="available">En stock</option>
+                <option value="unavailable">Épuisées</option>
+              </select>
+            </div>
+          </div>
+          <p class="catalog-count" data-catalog-count></p>
+        </div>
+
+        <div class="products-grid" data-catalog-grid></div>
+        <p class="catalog-empty" data-catalog-empty>Aucune création ne correspond à ces filtres pour le moment.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <span class="header__logo">IZAALY</span>
+        <p>Des bijoux symboliques, faits main, pensés pour porter une histoire.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html" class="link-underline">Accueil</a></li>
+          <li><a href="bagues.html" class="link-underline">Bagues</a></li>
+          <li><a href="colliers.html" class="link-underline">Colliers</a></li>
+          <li><a href="boucles-oreilles.html" class="link-underline">Boucles d'oreilles</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>À propos</h4>
+        <ul>
+          <li><a href="index.html#histoire" class="link-underline">Notre histoire</a></li>
+          <li><a href="index.html#contact" class="link-underline">Contact</a></li>
+          <li><a href="https://www.instagram.com/izaaly.collections/" class="link-underline" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Informations</h4>
+        <ul>
+          <li><a href="#" class="link-underline">Mentions légales</a></li>
+          <li><a href="#" class="link-underline">Politique de confidentialité</a></li>
+          <li><a href="#" class="link-underline">CGV</a></li>
+          <li><a href="#" class="link-underline">Livraison &amp; retours</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© 2026 IZAALY — Tous droits réservés.</span>
+      <span>Créé avec cœur.</span>
+    </div>
+  </footer>
+
+  <div class="cart-overlay" data-cart-close></div>
+  <aside class="cart-panel" aria-label="Panier">
+    <div class="cart-panel__head">
+      <h2>Votre panier</h2>
+      <button class="cart-panel__close" data-cart-close aria-label="Fermer le panier">&times;</button>
+    </div>
+    <div class="cart-panel__items" data-cart-items></div>
+    <p class="cart-panel__empty" data-cart-empty>Votre panier est vide.</p>
+    <div class="cart-panel__foot">
+      <div class="cart-panel__total">
+        <span>Total</span>
+        <span data-cart-total>0,00 €</span>
+      </div>
+      <a href="#" class="btn btn--dark">Commander</a>
+    </div>
+  </aside>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/catalog.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => initCatalogPage("boucles-oreilles"));
+  </script>
+</body>
+</html>

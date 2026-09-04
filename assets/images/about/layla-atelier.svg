@@ -1,0 +1,8 @@
+<!-- PLACEHOLDER IMAGE — replace with real photography. See README "Remplacer les images". -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1250" width="1000" height="1250">
+  <rect width="1000" height="1250" fill="#EFEAE0"/>
+  <g transform="translate(500.0,625.0) scale(1.1)" fill="none" stroke="#111111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+    <circle cx="-10" cy="-20" r="90"/><path d="M -90 140 C -90 40, 70 40, 70 140"/>
+  </g>
+  <text x="976" y="1226" text-anchor="end" font-family="Georgia, serif" font-size="14" fill="#111111" opacity="0.25">IZAALY — placeholder</text>
+</svg>

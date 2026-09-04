@@ -1,0 +1,9 @@
+<!-- PLACEHOLDER IMAGE — replace with assets/video/hero.mp4 poster. See README. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <rect width="1920" height="1080" fill="#161412"/>
+  <g transform="translate(960,540)" fill="none" stroke="#E8DFD2" stroke-width="1.6" opacity="0.5">
+    <circle cx="0" cy="40" r="150"/>
+    <path d="M -45 -70 L 0 -190 L 45 -70 Z"/>
+  </g>
+  <text x="1896" y="1056" text-anchor="end" font-family="Georgia, serif" font-size="18" fill="#E8DFD2" opacity="0.3">IZAALY — placeholder poster</text>
+</svg>

@@ -1,0 +1,64 @@
+/* surmesure.css — assistant « Bijou à partir d'un objet » */
+.sm-lock { overflow: hidden; }
+.sm-root {
+  position: fixed; inset: 0; z-index: 9000;
+  display: flex; flex-direction: column; height: 100vh; height: 100dvh;
+  background: #000; color: #fff;
+  font-family: "Jost", system-ui, sans-serif; font-weight: 300;
+  animation: smFade .4s ease;
+}
+.sm-root * { box-sizing: border-box; }
+.sm-head { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.4rem; }
+.sm-logo { font-size: 1.3rem; font-weight: 400; letter-spacing: .3em; }
+.sm-x { background: none; border: 1px solid #666; color: #fff; padding: .55rem 1rem; font: 500 .8rem Jost, sans-serif; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+.sm-x:hover { border-color: #fff; }
+.sm-bar { height: 2px; background: #2a2a2a; }
+.sm-bar i { display: block; height: 100%; width: 0; background: #fff; transition: width .6s cubic-bezier(.2,.7,.2,1); }
+.sm-main { flex: 1; overflow-y: auto; display: flex; padding: 1.5rem 1.4rem 2rem; }
+.sm-stage { margin: auto; width: min(640px, 100%); animation: smIn .5s cubic-bezier(.2,.7,.2,1); }
+.sm-stage.back { animation-name: smInBack; }
+.sm-count { font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: #999; margin-bottom: .8rem; }
+.sm-root h2 { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 300; text-transform: none; letter-spacing: .02em; line-height: 1.2; margin-bottom: .8rem; outline: none; color: #fff; }
+.sm-hint { color: #bbb; line-height: 1.6; margin-bottom: 1.5rem; font-size: 1.05rem; }
+.sm-label { font-size: .8rem; letter-spacing: .15em; text-transform: uppercase; color: #999; margin: 1.4rem 0 .6rem; }
+.sm-grid { display: grid; gap: .7rem; grid-template-columns: 1fr; }
+.sm-chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+@media (min-width: 560px) { .sm-grid { grid-template-columns: 1fr 1fr; } }
+.sm-card { position: relative; display: block; cursor: pointer; }
+.sm-card input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.sm-card span { display: block; padding: .95rem 1.1rem; border: 1px solid #555; font-size: 1.05rem; transition: background .25s, color .25s, border-color .25s, transform .25s; }
+.sm-card:hover span { border-color: #fff; }
+.sm-card input:checked + span { background: #fff; color: #000; border-color: #fff; transform: scale(1.02); }
+.sm-card input:focus-visible + span { outline: 3px solid #b8893b; outline-offset: 2px; }
+.sm-f { display: grid; gap: .4rem; margin-top: 1.1rem; font-size: .9rem; color: #ccc; }
+.sm-f input, .sm-f textarea { font: inherit; font-size: 1.1rem; color: #fff; background: none; border: 0; border-bottom: 1px solid #777; padding: .7rem 0; outline: none; border-radius: 0; resize: none; color-scheme: dark; width: 100%; }
+.sm-f input:focus, .sm-f textarea:focus { border-color: #fff; }
+.sm-check { display: flex; gap: .7rem; align-items: flex-start; margin-top: 1.4rem; font-size: .9rem; line-height: 1.5; color: #ccc; cursor: pointer; }
+.sm-check input { margin-top: .25rem; width: 1.1rem; height: 1.1rem; accent-color: #fff; flex: none; }
+.sm-check a { text-decoration: underline; }
+.sm-err { min-height: 1.4em; margin-top: 1rem; color: #ff8a8a; font-size: .95rem; }
+.sm-steps { list-style: none; counter-reset: s; display: grid; gap: .8rem; margin: 1.4rem 0; padding: 0; }
+.sm-steps li { counter-increment: s; display: flex; gap: 1rem; align-items: baseline; color: #ddd; }
+.sm-steps li::before { content: "0" counter(s); letter-spacing: .2em; color: #b8893b; font-weight: 500; }
+.sm-ring { width: 150px; margin: 0 0 1.2rem; }
+.sm-ring circle { fill: none; stroke: #fff; stroke-width: 1.2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: smDraw 2.4s cubic-bezier(.4,0,.2,1) forwards; }
+.sm-ring circle:nth-child(2) { animation-delay: .3s; }
+.sm-ring circle.d { stroke-width: 4; stroke-linecap: round; stroke-dasharray: .5 14; stroke-dashoffset: 0; opacity: .7; transform-box: fill-box; transform-origin: center; animation: smSpin 60s linear infinite; }
+.sm-foot { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.4rem calc(1rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid #222; }
+.sm-btn { font: 500 .95rem Jost, sans-serif; letter-spacing: .14em; text-transform: uppercase; padding: 1rem 2.2rem; border-radius: 999px; border: 1px solid #fff; background: #fff; color: #000; cursor: pointer; transition: background .3s, color .3s, transform .3s; }
+.sm-btn:hover { background: #b8893b; border-color: #b8893b; color: #fff; transform: translateY(-2px); }
+.sm-btn:disabled { opacity: .5; cursor: default; transform: none; }
+.sm-btn.ghost { background: none; color: #fff; border-color: #555; }
+.sm-btn.ghost:hover { border-color: #fff; background: none; color: #fff; }
+.sm-btn[hidden] { display: none; }
+.sm-hp { position: absolute; left: -9999px; }
+.sm-root :focus-visible { outline: 3px solid #b8893b; outline-offset: 3px; }
+@keyframes smFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes smIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes smInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+@keyframes smDraw { to { stroke-dashoffset: 0; } }
+@keyframes smSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .sm-root, .sm-root * { animation: none !important; transition: none !important; }
+  .sm-ring circle { stroke-dashoffset: 0; }
+}

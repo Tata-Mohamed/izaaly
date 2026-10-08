@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Izaaly — Bijoux personnalisés et créations sur mesure</title>
+  <meta name="description"
+    content="Izaaly crée des bijoux personnalisés et sur mesure, façonnés à la main à partir de votre histoire. Composez votre bijou ou découvrez la box mensuelle.">
+  <link rel="canonical" href="https://izaaly.com/">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/img/favicon.ico" sizes="48x48">
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+
+  <!-- Open Graph (Facebook, Instagram, WhatsApp, LinkedIn…) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Izaaly">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Izaaly — Bijoux personnalisés et créations sur mesure">
+  <meta property="og:description"
+    content="Des bijoux imaginés à partir de votre histoire, façonnés à la main. Composez le vôtre ou découvrez la box mensuelle.">
+  <meta property="og:url" content="https://izaaly.com/">
+  <meta property="og:image" content="https://izaaly.com/assets/img/og-image.PNG">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Bijou Izaaly porté par une cliente">
+
+  <!-- Carte Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Izaaly — Bijoux personnalisés et créations sur mesure">
+  <meta name="twitter:description" content="Des bijoux imaginés à partir de votre histoire, façonnés à la main.">
+  <meta name="twitter:image" content="https://izaaly.com/assets/img/og-image.PNG">
+
+  <!-- Données structurées -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://izaaly.com/#organisation",
+      "name": "Izaaly",
+      "url": "https://izaaly.com/",
+      "logo": "https://izaaly.com/assets/img/logo.svg",
+      "description": "Bijoux personnalisés et créations sur mesure, façonnés à la main.",
+      "sameAs": [
+        "https://www.instagram.com/izaaly.collections/",
+        "https://www.tiktok.com/@izaaly.collections",
+        "https://pinterest.com/izaaly"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "name": "Izaaly",
+      "url": "https://izaaly.com/",
+      "inLanguage": "fr-FR",
+      "publisher": { "@id": "https://izaaly.com/#organisation" }
+    }
+  ]
+}
+</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/surmesure.css">
+</head>
+
+<body>
+
+  <aside class="social-rail" aria-label="Réseaux sociaux">
+    <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
+      rel="noopener">Instagram</a>
+    <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
+  </aside>
+
+  <div class="topbar" aria-live="polite">
+    <span class="msg active" data-edit="topbar.1">Bijoux en or, façonnés à la demande</span>
+    <span class="msg" data-edit="topbar.2">Fabriqués avec soin par nos artisans partenaires</span>
+    <span class="msg" data-edit="topbar.3">Livrés dans un écrin Izaaly</span>
+  </div>
+
+  <header class="header" id="header">
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false"
+      aria-controls="menu"><span></span><span></span><span></span></button>
+
+    <nav class="nav-left" aria-label="Navigation principale">
+      <a href="#hero">Accueil</a>
+      <a href="#box">Les box</a>
+      <a href="#histoire">Notre histoire</a>
+    </nav>
+
+    <a href="#" class="logo">IZAALY</a>
+
+    <nav class="nav-right" aria-label="Navigation secondaire">
+      <a href="#categories">Nos créations</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <nav class="menu" id="menu" aria-hidden="true">
+    <ul>
+      <li><a href="#hero">Accueil</a></li>
+      <li><a href="#box">Les box</a></li>
+      <li><a href="#histoire">Notre histoire</a></li>
+      <li><a href="#categories">Nos créations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="menu-social">
+      <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
+        rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
+        rel="noopener">TikTok</a>
+      <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero tile" id="hero">
+      <div class="ph ph-hero" data-parallax data-bg="hero.image" data-overlay="0.25"></div>
+      <div class="tile-text center light">
+        <h1 data-edit="hero.titre">Composez votre bijou</h1>
+        <p class="serif" data-edit="hero.texte">Choisissez les formes, les finitions, les gravures. Nos artisans le
+          réalisent pour vous.</p>
+        <a href="#categories" class="btn" data-edit="hero.bouton">Créer</a>
+      </div>
+    </section>
+
+    <!-- OFFRIR -->
+    <section class="tile tile-gift">
+      <div class="ph ph-gift" data-bg="gift.image" data-overlay="0.25"></div>
+      <div class="tile-text center light">
+        <h2 data-edit="gift.titre">Offrez le choix</h2>
+        <p class="serif" data-edit="gift.texte">Le coffret Izaaly laisse la personne aimée dessiner son propre bijou,
+          sans jamais voir le prix.</p>
+        <a href="#" class="btn" data-edit="gift.bouton">Offrir</a>
+      </div>
+    </section>
+
+    <!-- CONCEPT -->
+    <section class="section concept">
+      <h2 class="center reveal" data-edit="concept.titre">Un bijou, <br> quatre étapes</h2>
+      <p class="serif center reveal" data-edit="communaute.texte">Partagez vos créations sur Instagram avec
+        @izaaly.collections</p>
+      <div class="steps" id="steps">
+        <article class="step">
+          <h3 data-edit="etape1.titre">1. Prise de contact</h3><img class="step-img" src="./assets/img/3.png"
+            alt="Choisissez un modèle" data-img="etape1.image">
+          <p class="serif" data-edit="etape1.texte">Vous me partagez le souvenir, l'émotion ou la personne que vous
+            souhaitez garder près de vous
+            à travers un bijou unique.</p>
+        </article>
+        <article class="step">
+          <h3 data-edit="etape2.titre">2. Dessin & croquis</h3><img class="step-img" src="./assets/img/4.png"
+            alt="Personnalisez votre bijou" data-img="etape2.image">
+          <p class="serif" data-edit="etape2.texte">À partir de votre souvenir, nous imaginons ensemble un design unique
+            qui vous ressemble.</p>
+        </article>
+        <article class="step">
+          <h3 data-edit="etape3.titre">3. Création</h3><img class="step-img" src="./assets/img/5.png"
+            alt="Validez votre création" data-img="etape3.image">
+          <p class="serif" data-edit="etape3.texte">Le dessin prend vie. Je façonne chaque bijou avec soin, en
+            choisissant des matériaux de
+            qualité pour un rendu unique.</p>
+        </article>
+        <article class="step">
+          <h3 data-edit="etape4.titre">4. Votre bijou est prêt</h3><img class="step-img" src="./assets/img/6.png"
+            alt="Recevez votre bijou" data-img="etape4.image">
+          <p class="serif" data-edit="etape4.texte">Votre création est soigneusement préparée et emballée pour vous être
+            remise.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- MODELES -->
+    <section class="section models">
+      <h2 class="reveal" data-edit="modeles.titre">À vous de jouer</h2>
+      <p class="serif reveal" data-edit="modeles.texte">Prenez un modèle de départ et faites-le évoluer.</p>
+      <div class="rail" id="rail">
+        <article class="model">
+          <div class="ph ph-m1" data-bg="modele1.image"><a href="#" class="btn small">Commencer</a></div>
+          <h3 data-edit="modele1.nom">Bague Dune</h3>
+        </article>
+        <article class="model">
+          <div class="ph ph-m2" data-bg="modele2.image"><a href="#" class="btn small">Commencer</a></div>
+          <h3 data-edit="modele2.nom">Créoles Soleil</h3>
+        </article>
+        <article class="model">
+          <div class="ph ph-m3" data-bg="modele3.image"><a href="#" class="btn small">Commencer</a></div>
+          <h3 data-edit="modele3.nom">Collier Sillage</h3>
+        </article>
+        <article class="model">
+          <div class="ph ph-m4" data-bg="modele4.image"><a href="#" class="btn small">Commencer</a></div>
+          <h3 data-edit="modele4.nom">Jonc Ruban</h3>
+        </article>
+      </div>
+    </section>
+
+    <!-- ENGAGEMENT -->
+    <section class="tile tile-right">
+      <div class="ph ph-craft" data-parallax data-bg="engagement.image"></div>
+      <div class="tile-text right light">
+        <h2 data-edit="engagement.titre1">Immortalisez l'instant</h2>
+        <p class="serif" data-edit="engagement.texte1">Ce qui compte mérite de durer.</p>
+        <h2 data-edit="engagement.titre2">Un souvenir, un bijou</h2>
+        <p class="serif" data-edit="engagement.texte2">Pour le garder près de vous.</p>
+      </div>
+    </section>
+
+    <!-- SUR MESURE : remplace le bloc <div class="bespoke-art reveal"> existant -->
+    <style>
+      :root {
+        --white: #fff;
+        --black: #000
+      }
+
+      .container_bespoke {
+        background: #000;
+        color: #fff;
+      }
+
+      .container_bespoke h2,
+      .container_bespoke h3,
+      .container_bespoke p,
+      .container_bespoke .eyebrow,
+      .container_bespoke .serif {
+        color: #fff;
+      }
+
+      .container_bespoke .bespoke-line {
+        background: #fff;
+      }
+
+      .container_bespoke .btn {
+        background: #fff;
+        color: #000;
+      }
+
+      .container_bespoke .btn:hover {
+        background: var(--gold);
+        color: #fff;
+      }
+
+      .dark {
+        background: #000;
+        color: #fff
+      }
+
+      .section {
+        padding: 5rem 1.5rem;
+        display: grid;
+        gap: 1.5rem
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .9s, transform .9s
+      }
+
+      .reveal.in {
+        opacity: 1;
+        transform: none
+      }
+
+      .bespoke {
+        align-items: center;
+        gap: 3.5rem;
+        overflow: hidden
+      }
+
+      .bespoke-art {
+        width: 100%;
+        max-width: 460px;
+        margin: 0 auto
+      }
+
+      .bespoke-art svg {
+        display: block;
+        width: 100%;
+        height: auto
+      }
+
+      .bespoke-art circle,
+      .bespoke-art path {
+        fill: none;
+        stroke: var(--white);
+        stroke-width: 1;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1
+      }
+
+      .bespoke-art.in circle,
+      .bespoke-art.in path {
+        animation: draw 2.6s cubic-bezier(.4, 0, .2, 1) forwards
+      }
+
+      .bespoke-art.in circle:nth-child(2) {
+        animation-delay: .3s
+      }
+
+      .bespoke-art.in circle:nth-child(3) {
+        animation-delay: .6s
+      }
+
+      .bespoke-art.in path {
+        animation-delay: .9s
+      }
+
+      .bespoke-art circle.dots {
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: .5 14;
+        stroke-dashoffset: 0;
+        opacity: .7;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: spin 80s linear infinite
+      }
+
+      .bespoke-art.in circle.dots {
+        animation: spin 80s linear infinite
+      }
+
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg)
+        }
+      }
+
+      /* Logo Izaaly : tracé au trait, puis remplissage */
+      .bespoke-art path.logo-mark {
+        fill: var(--white);
+        fill-opacity: 0;
+        stroke: var(--white);
+        stroke-width: 25;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+      }
+
+      .bespoke-art.in path.logo-mark {
+        animation:
+          draw 3.2s 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+          fillin 1.4s 2.6s ease forwards;
+      }
+
+      @keyframes fillin {
+        to {
+          fill-opacity: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .bespoke-art path.logo-mark {
+          stroke-dashoffset: 0;
+          fill-opacity: 1;
+        }
+      }
+    </style>
+    <!-- SUR MESURE -->
+    <div class="container_bespoke">
+      <section class="bespoke">
+
+        <div class="bespoke-art reveal" aria-hidden="true">
+          <svg viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="190" pathLength="1" />
+            <circle cx="200" cy="200" r="150" pathLength="1" />
+            <g transform="translate(200 200) scale(0.0342 -0.0342) translate(-5340 -5632)">
+              <path class="logo-mark" pathLength="1"
+                d="M5517 8084 c106 -51 157 -175 121 -296 -15 -51 -77 -121 -131 -147 -94 -45 -229 -16 -295 65 -32 38 -62 116 -62 159 0 45 31 123 66 163 77 90 185 110 301 56z m296 -815 c5 -9 7 -28 3 -42 -5 -22 -18 -29 -104 -56 -108 -33 -172 -73 -199 -123 -17 -31 -18 -96 -21 -1071 l-2 -1038 22 6 c80 22 174 81 248 155 134 134 181 216 495 865 173 360 306 541 475 650 167 108 391 145 501 83 70 -39 89 -146 36 -196 -38 -36 -96 -53 -211 -62 -173 -14 -284 -56 -386 -147 -144 -127 -221 -252 -400 -648 -45 -99 -99 -213 -120 -253 l-38 -73 117 -117 c65 -64 145 -155 178 -202 155 -216 290 -519 388 -870 147 -525 263 -739 456 -841 50 -27 63 -38 61 -54 -9 -52 -72 -85 -162 -85 -105 0 -185 50 -255 160 -75 118 -125 247 -231 600 -99 328 -155 491 -167 487 -15 -5 -82 -162 -160 -377 -88 -239 -122 -319 -167 -388 -45 -71 -89 -107 -152 -123 -39 -11 -52 -10 -90 4 -38 15 -68 47 -68 71 0 2 25 16 55 30 116 57 204 193 299 461 70 196 113 300 167 402 27 50 49 97 49 104 0 20 -99 210 -154 294 -53 82 -186 245 -227 279 -22 19 -23 19 -46 -10 -158 -191 -286 -284 -452 -330 l-61 -17 0 -651 c0 -445 4 -664 11 -691 20 -72 89 -117 242 -160 61 -18 83 -41 73 -80 -3 -12 -16 -25 -28 -29 -41 -11 -778 -7 -799 4 -20 11 -26 54 -11 78 5 7 41 21 81 32 128 36 197 81 220 143 7 19 11 246 11 691 l0 663 -82 31 c-46 17 -112 50 -148 74 -80 51 -192 163 -249 247 l-43 63 -31 -28 c-67 -60 -171 -172 -225 -244 -62 -81 -199 -311 -209 -348 -4 -17 13 -61 55 -150 34 -70 91 -210 128 -312 110 -308 192 -438 309 -496 62 -30 70 -51 29 -83 -62 -49 -161 -34 -231 35 -48 49 -114 173 -167 319 -82 222 -160 422 -181 465 l-23 45 -17 -40 c-9 -22 -66 -175 -127 -340 -172 -468 -229 -585 -333 -691 -67 -68 -125 -94 -209 -94 -115 1 -220 100 -138 131 150 57 261 173 368 389 58 116 83 177 155 389 200 582 420 931 738 1171 l34 26 -20 39 c-21 41 -38 85 -168 415 -43 107 -93 226 -112 265 -93 185 -211 320 -341 388 -83 43 -118 53 -257 73 -161 23 -215 60 -215 149 0 89 63 135 183 135 166 0 322 -67 455 -195 153 -146 262 -341 443 -795 176 -442 268 -613 403 -746 66 -65 176 -134 213 -134 11 0 13 175 13 1024 0 700 -3 1034 -11 1053 -24 65 -84 106 -209 143 -41 13 -81 27 -87 33 -14 10 -18 69 -6 80 4 4 191 6 416 5 362 -3 411 -5 420 -19z" />
+            </g>
+            <circle class="dots" cx="200" cy="200" r="170" />
+          </svg>
+        </div>
+
+        <div class="bespoke-text">
+          <p class="eyebrow reveal" data-edit="surmesure.eyebrow">Bijou souvenir</p>
+          <h2 class="reveal" data-edit="surmesure.titre">Création d'un bijou souvenir</h2>
+          <span class="bespoke-line reveal"></span>
+          <p class="serif reveal" data-edit="surmesure.texte1">
+            Un bijou unique, imaginé à partir de votre histoire et chargé d'émotions.
+            Bien plus qu'un simple bijou, il devient un symbole précieux de vos souvenirs,
+            de vos proches et des moments qui comptent.
+          </p>
+          <p class="serif reveal" data-edit="surmesure.texte2">
+            Une création personnelle que vous garderez près de vous au quotidien,
+            comme un morceau de votre histoire qui ne vous quittera jamais.
+          </p>
+          <a href="#surmesure" data-open="surmesure" class="btn reveal" data-edit="surmesure.bouton">Parler de mon
+            projet</a>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- OFFRES -->
+    <section class="section offers">
+      <h2 class="center reveal" data-edit="offres.titre">Choisissez votre expérience</h2>
+      <p class="serif center reveal" data-edit="offres.texte">Trois façons de créer votre bijou, selon votre envie.</p>
+
+      <div class="offers-grid">
+
+        <a href="#box" class="offer-card reveal">
+          <img src="./assets/img/fond1.png" alt="Box mensuelle Izaaly" data-img="offre1.image">
+          <div class="offer-body">
+            <span class="offer-tag" data-edit="offre1.tag">Idéal pour se faire plaisir</span>
+            <span class="offer-num">01</span>
+            <h3 data-edit="offre1.titre">Box mensuelle</h3>
+            <p class="serif" data-edit="offre1.texte">Un rendez-vous créatif chaque mois.</p>
+            <span class="btn" data-edit="offre1.bouton">Découvrir les box →</span>
+          </div>
+        </a>
+
+        <a href="#surmesure" data-open="surmesure" class="offer-card reveal" style="transition-delay:.15s">
+          <img src="./assets/img/sur-mesure.jfif" alt="Bijou souvenir Izaaly" data-img="offre2.image">
+          <div class="offer-body">
+            <span class="offer-tag" data-edit="offre2.tag">Idéal pour un souvenir</span>
+            <span class="offer-num">02</span>
+            <h3 data-edit="offre2.titre">Bijou souvenir</h3>
+            <p class="serif" data-edit="offre2.texte">Un souvenir, une histoire, une nouvelle vie.</p>
+            <span class="btn" data-edit="offre2.bouton">Créer mon bijou →</span>
+          </div>
+        </a>
+
+        <a href="#contact" class="offer-card reveal" style="transition-delay:.3s">
+          <img src="./assets/img/creation-personnalisee.jpg" alt="Création personnalisée Izaaly"
+            data-img="offre3.image">
+          <div class="offer-body">
+            <span class="offer-tag" data-edit="offre3.tag">Idéal pour créer librement</span>
+            <span class="offer-num">03</span>
+            <h3 data-edit="offre3.titre">Création personnalisée</h3>
+            <p class="serif" data-edit="offre3.texte">Une intention, mon imagination, un bijou unique.</p>
+            <span class="btn" data-edit="offre3.bouton">Lancer ma création →</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- BOX / ABONNEMENT -->
+    <section class="section boxes" id="box">
+      <div class="boxes-head">
+        <span class="eyebrow reveal" data-edit="box.eyebrow">01 — Abonnement</span>
+        <h2 class="reveal" data-edit="box.titre">Une box, chaque mois</h2>
+        <p class="serif reveal" data-edit="box.texte">Une création, chaque mois. Choisissez votre formule, puis votre
+          durée : plus vous vous
+          engagez longtemps, plus le tarif mensuel baisse.</p>
+      </div>
+
+      <div class="duration reveal" role="group" aria-label="Durée de l'abonnement">
+        <button type="button" data-m="3" data-d="0" aria-pressed="true">3 mois</button>
+        <button type="button" data-m="6" data-d="0.05" aria-pressed="false">6 mois <span
+            class="promo">-5%</span></button>
+        <button type="button" data-m="12" data-d="0.10" aria-pressed="false">12 mois <span
+            class="promo">-10%</span></button>
+      </div>
+      <p class="box-note reveal" data-edit="box.note">La formule « La Découverte » est une box unique, sans abonnement.
+      </p>
+
+      <div class="box-grid">
+
+        <article class="box-card reveal">
+          <div class="box-photo"><img src="./assets/img/box-decouverte.jpg" alt="Box La Découverte"
+              data-img="box1.image" onerror="this.remove()">
+          </div>
+          <div class="box-body">
+            <h3 data-edit="box1.nom">La Découverte</h3>
+            <p class="box-desc" data-edit="box1.desc">Une création surprise pour découvrir l'univers IZAALY.</p>
+            <p class="price"><span data-price1>19,99</span> € <small data-edit="box1.unite">box unique</small></p>
+            <p class="billed">&nbsp;</p>
+            <ul>
+              <li data-edit="box1.li1">1 seule box, sans engagement</li>
+              <li data-edit="box1.li2">Idéale pour découvrir le concept ou offrir</li>
+            </ul>
+            <a href="#" class="btn" data-edit="box1.bouton">Découvrir</a>
+          </div>
+        </article>
+
+        <article class="box-card featured reveal" data-base="29.99" style="transition-delay:.15s">
+          <span class="badge" data-edit="box2.badge">Le choix recommandé</span>
+          <div class="box-photo"><img src="./assets/img/box-essentielle.jpg" alt="Box L'Essentiel" data-img="box2.image"
+              onerror="this.remove()"></div>
+          <div class="box-body">
+            <h3 data-edit="box2.nom">L'Essentiel</h3>
+            <p class="box-desc" data-edit="box2.desc">Une nouvelle pièce imaginée chaque mois, pensée pour durer.</p>
+            <p class="price"><span data-price>29,99</span> € <small data-edit="box2.unite">/mois</small></p>
+            <p class="billed" data-billed>Facturé 89,97 € pour 3 mois</p>
+            <ul>
+              <li data-edit="box2.li1">Abonnement 3 / 6 / 12 mois</li>
+              <li data-edit="box2.li2">Le choix le plus généreux en rapport qualité-prix</li>
+            </ul>
+            <a href="#" class="btn" data-edit="box2.bouton">S'abonner</a>
+          </div>
+        </article>
+
+        <article class="box-card reveal" data-base="39.99" style="transition-delay:.3s">
+          <div class="box-photo"><img src="./assets/img/fond1.png" alt="Box L'Exception" data-img="box3.image"
+              onerror="this.remove()"></div>
+          <div class="box-body">
+            <h3 data-edit="box3.nom">L'Exception</h3>
+            <p class="box-desc" data-edit="box3.desc">Une box plus riche, avec des pièces et des attentions en plus.</p>
+            <p class="price"><span data-price>39,99</span> € <small data-edit="box3.unite">/mois</small></p>
+            <p class="billed" data-billed>Facturé 119,97 € pour 3 mois</p>
+            <ul>
+              <li data-edit="box3.li1">Abonnement 3 / 6 / 12 mois</li>
+              <li data-edit="box3.li2">Une expérience plus généreuse, chaque mois</li>
+            </ul>
+            <a href="#" class="btn" data-edit="box3.bouton">S'abonner</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="how">
+        <h3 class="reveal" data-edit="how.titre">Comment ça fonctionne ?</h3>
+        <ol class="how-steps">
+          <li class="reveal"><span>01</span>
+            <p data-edit="how.1">Je choisis ma box</p>
+          </li>
+          <li class="reveal" style="transition-delay:.15s"><span>02</span>
+            <p data-edit="how.2">Je choisis ma durée</p>
+          </li>
+          <li class="reveal" style="transition-delay:.3s"><span>03</span>
+            <p data-edit="how.3">IZAALY imagine et crée la collection du mois</p>
+          </li>
+          <li class="reveal" style="transition-delay:.45s"><span>04</span>
+            <p data-edit="how.4">Je reçois ma box chez moi</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+      <h2 class="center reveal" data-edit="categories.titre">Que voulez-vous créer ?</h2>
+    </section>
+    <section class="cats">
+      <a href="#" class="tile cat">
+        <div class="ph cat-media">
+          <img class="img-main" src="./assets/img/categories/bagues.webp" alt="Bague" data-img="cat1.image">
+          <img class="img-hover" src="./assets/img/categories/bagues-2.webp" alt="" aria-hidden="true"
+            data-img="cat1.image2">
+        </div>
+        <div class="cat-info">
+          <h3 data-edit="cat1.nom">Bagues</h3>
+          <p class="serif" data-edit="cat1.prix">à partir de 79 €</p>
+        </div><span class="btn">Créer</span>
+      </a>
+      <a href="#" class="tile cat">
+        <div class="ph cat-media">
+          <img class="img-main" src="./assets/img/categories/boucles-oreilles.webp" alt="Boucles d'oreilles"
+            data-img="cat2.image">
+          <img class="img-hover" src="./assets/img/categories/boucles-oreilles-2.webp" alt="" aria-hidden="true"
+            data-img="cat2.image2">
+        </div>
+        <div class="cat-info">
+          <h3 data-edit="cat2.nom">Boucles d'oreilles</h3>
+          <p class="serif" data-edit="cat2.prix">à partir de 99 €</p>
+        </div><span class="btn">Créer</span>
+      </a>
+      <a href="#" class="tile cat">
+        <div class="ph cat-media">
+          <img class="img-main" src="./assets/img/categories/colliers.webp" alt="Collier" data-img="cat3.image">
+          <img class="img-hover" src="./assets/img/categories/colliers-2.webp" alt="" aria-hidden="true"
+            data-img="cat3.image2">
+        </div>
+        <div class="cat-info">
+          <h3 data-edit="cat3.nom">Colliers</h3>
+          <p class="serif" data-edit="cat3.prix">à partir de 109 €</p>
+        </div><span class="btn">Créer</span>
+      </a>
+      <a href="#" class="tile cat">
+        <div class="ph cat-media">
+          <img class="img-main" src="./assets/img/categories/bracelets.webp" alt="Bracelet" data-img="cat4.image">
+          <img class="img-hover" src="./assets/img/categories/bracelets-2.webp" alt="" aria-hidden="true"
+            data-img="cat4.image2">
+        </div>
+        <div class="cat-info">
+          <h3 data-edit="cat4.nom">Bracelets</h3>
+          <p class="serif" data-edit="cat4.prix">à partir de 129 €</p>
+        </div><span class="btn">Créer</span>
+      </a>
+    </section>
+
+    <!-- HISTOIRE -->
+    <section class="story" id="histoire">
+      <div class="sheet">
+        <h2 data-write data-edit="histoire.titre">L'histoire d'IZAALY</h2>
+        <p class="lead" data-write data-edit="histoire.accroche">Un bijou n'est jamais qu'un bijou.</p>
+        <p data-write data-edit="histoire.p1">IZAALY est née d'un besoin profond de créer quelque chose de personnel,
+          porteur de valeurs et
+          capable de transmettre du beau. Layla imagine chaque pièce comme un symbole, un souvenir ou un fragment
+          d'émotion que l'on peut garder près de soi.</p>
+        <p data-write data-edit="histoire.p2">Chaque création est pensée avec intention et délicatesse, à la main, loin
+          des logiques de
+          production en série — pour que chaque bijou puisse vraiment raconter quelque chose.</p>
+        <p class="closing" data-write data-edit="histoire.fin">Il raconte une histoire. La vôtre.</p>
+        <span class="rule"></span>
+        <img class="stamp" src="./assets/img/logo.svg" alt="" aria-hidden="true">
+      </div>
+    </section>
+
+    <!-- AVIS CLIENTES -->
+    <section class="section voices" id="avis">
+      <div class="voices-head">
+        <span class="eyebrow reveal" data-edit="avis.eyebrow">Elles portent IZAALY</span>
+        <h2 class="reveal" data-edit="avis.titre">Votre bijou, votre histoire</h2>
+        <p class="serif reveal" data-edit="avis.texte">4,9 sur 5, basé sur les avis de nos clientes.</p>
+      </div>
+
+      <div class="voices-track" id="voicesTrack"></div>
+
+      <div class="voices-ctrl">
+        <button type="button" class="vbtn" id="vPrev">Précédent</button>
+        <div class="vbar"><span id="voicesBar"></span></div>
+        <button type="button" class="vbtn" id="vNext">Suivant</button>
+      </div>
+    </section>
+
+
+    <!-- COMMUNAUTE -->
+    <section class="section community dark">
+      <h2 class="center reveal" data-edit="communaute.titre">Rejoignez la communauté Izaaly</h2>
+      <p class="serif center reveal" data-edit="communaute.texte">Partagez vos créations sur Instagram avec @izaaly</p>
+      <div class="grid">
+        <div class="ph ph-g1" data-bg="communaute.image1" style="background-size:cover;background-position:center">
+        </div>
+        <div class="ph ph-g2" data-bg="communaute.image2" style="background-size:cover;background-position:center">
+        </div>
+        <div class="ph ph-g3" data-bg="communaute.image3" style="background-size:cover;background-position:center">
+        </div>
+        <div class="ph ph-g4" data-bg="communaute.image4" style="background-size:cover;background-position:center">
+        </div>
+      </div>
+    </section>
+
+    <!-- BANDEAU RÉSEAUX -->
+    <section class="marquee" aria-label="Suivez IZAALY">
+      <div class="marquee-track">
+        <div class="mq-group">
+          <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
+            rel="noopener">Instagram</a><i class="sep"></i>
+          <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
+            rel="noopener">TikTok</a><i class="sep"></i>
+          <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a><i
+            class="sep"></i>
+          <span data-text="social.handle">@izaaly.collections</span>
+        </div>
+        <div class="mq-group" aria-hidden="true">
+          <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" tabindex="-1">Instagram</a><i
+            class="sep"></i>
+          <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" tabindex="-1">TikTok</a><i
+            class="sep"></i>
+          <a href="https://pinterest.com/izaaly" data-social="pinterest" tabindex="-1">Pinterest</a><i class="sep"></i>
+          <span data-text="social.handle">@izaaly</span><i class="sep"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / DEVIS -->
+    <section class="section contact" id="contact">
+      <div class="contact-intro">
+        <span class="eyebrow reveal" data-edit="contact.eyebrow">Devis</span>
+        <h2 class="reveal" data-edit="contact.titre">Parlons de votre projet</h2>
+        <p class="serif reveal" data-edit="contact.texte">Un souvenir, une idée, un objet précieux : décrivez-nous ce
+          que vous imaginez et nous
+          vous proposons un devis.</p>
+      </div>
+
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mwlvlbzv" method="POST">
+        <div class="row">
+          <div class="field reveal">
+            <input type="text" id="c-nom" name="nom" placeholder=" " required autocomplete="name">
+            <label for="c-nom" data-text="form.nom">Nom</label>
+          </div>
+          <div class="field reveal">
+            <input type="email" id="c-mail" name="email" placeholder=" " required autocomplete="email">
+            <label for="c-mail" data-text="form.email">E-mail</label>
+          </div>
+        </div>
+
+        <div class="field reveal">
+          <select data-options="form.types" id="c-type" name="projet" required>
+            <option value="" disabled selected hidden></option>
+            <option>Bijou souvenir</option>
+            <option>Carte blanche</option>
+            <option>Box mensuelle</option>
+            <option>Autre demande</option>
+          </select>
+          <label for="c-type" data-text="form.type">Type de projet</label>
+        </div>
+
+        <div class="field reveal">
+          <textarea id="c-msg" name="message" placeholder=" " required rows="4"></textarea>
+          <label for="c-msg" data-text="form.msg">Votre projet</label>
+        </div>
+
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"
+          aria-hidden="true">
+
+        <p class="form-legal">
+          Les informations saisies servent uniquement à répondre à votre demande.
+          Pour en savoir plus, consultez notre
+          <a href="./confidentialite.html">politique de confidentialité</a>.
+        </p>
+
+        <button type="submit" class="btn reveal" data-text="form.bouton">Envoyer ma demande</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span class="logo">IZAALY</span>
+    <nav class="footer-social" aria-label="Réseaux sociaux">
+      <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
+        rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
+        rel="noopener">TikTok</a>
+      <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
+    </nav>
+    <nav class="footer-legal" aria-label="Informations légales">
+      <a href="./mentions-legales.html">Mentions légales</a>
+      <a href="./cgv.html">CGV</a>
+      <a href="./confidentialite.html">Confidentialité</a>
+    </nav>
+    <p class="serif" data-edit="footer.copyright">© 2026 Izaaly. Tous droits réservés.</p>
+  </footer>
+
+  <script src="./assets/js/content.js"></script>
+  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/surmesure.js"></script>
+
+  <script>
+    if (new URLSearchParams(location.search).has('admin')) {
+      const s = document.createElement('script'); s.src = './assets/js/admin.js'; document.body.appendChild(s);
+    }
+  </script>
+</body>
+
+</html>

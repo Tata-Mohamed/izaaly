@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Page introuvable – Izaaly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --gold: #b8893b; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: #000;
+      color: #fff;
+      font-family: "Jost", system-ui, sans-serif;
+      font-weight: 300;
+      padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .logo {
+      justify-self: center;
+      padding: 1.6rem 1.4rem;
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      animation: logoIn 1.6s cubic-bezier(.2, .7, .2, 1) backwards;
+    }
+
+    main {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 1.6rem;
+      padding: 1rem 1.5rem 3rem;
+      text-align: center;
+    }
+
+    /* Cercles qui se dessinent, comme dans la section « Sur mesure » */
+    .ring { width: min(72vw, 340px); }
+    .ring svg { display: block; width: 100%; height: auto; }
+    .ring circle { fill: none; stroke: #fff; stroke-width: 1; }
+    .ring .c1, .ring .c2 {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 2.6s cubic-bezier(.4, 0, .2, 1) forwards;
+    }
+    .ring .c2 { animation-delay: .3s; }
+    .ring .dots {
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: .5 14;
+      opacity: .7;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spin 80s linear infinite;
+    }
+    .ring text {
+      fill: #fff;
+      font-family: "Jost", system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 84px;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: fade 1.2s ease 1.4s forwards;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 4.5vw, 2rem);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      opacity: 0;
+      animation: rise 1s cubic-bezier(.2, .7, .2, 1) 1.6s forwards;
+    }
+    p {
+      max-width: 36ch;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ccc;
+      opacity: 0;
+      animation: rise 1s cubic-bezier(.2, .7, .2, 1) 1.8s forwards;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: .6rem;
+      padding: 1rem 2.6rem;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: rise 1s cubic-bezier(.2, .7, .2, 1) 2s forwards;
+      transition: background .3s, color .3s, transform .3s;
+    }
+    .btn:hover { background: var(--gold); color: #fff; transform: translateY(-2px); }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+    footer {
+      padding: 1.6rem 1.4rem;
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: .12em;
+      color: #888;
+    }
+
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fade { to { opacity: 1; } }
+    @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes logoIn { from { opacity: 0; letter-spacing: .6em; } to { opacity: 1; letter-spacing: .3em; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .ring .c1, .ring .c2 { stroke-dashoffset: 0; }
+      .ring text, h1, p, .btn { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <a class="logo" href="/" id="logo">IZAALY</a>
+
+  <main>
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <circle class="c1" cx="200" cy="200" r="190" pathLength="1" />
+        <circle class="c2" cx="200" cy="200" r="150" pathLength="1" />
+        <circle class="dots" cx="200" cy="200" r="170" />
+        <text x="200" y="228" text-anchor="middle">404</text>
+      </svg>
+    </div>
+    <h1>Cette page n'existe pas</h1>
+    <p>Le lien est peut-être erroné, ou la page a été déplacée. Retrouvez l'ensemble de nos créations depuis l'accueil.</p>
+    <a class="btn" href="/" id="home">Retour à l'accueil</a>
+  </main>
+
+  <footer>© 2026 Izaaly. Tous droits réservés.</footer>
+
+  <script>
+    // Lien d'accueil correct sur GitHub Pages (site de projet : /nom-du-depot/)
+    (function () {
+      var base = '/';
+      if (location.hostname.endsWith('.github.io')) {
+        var seg = location.pathname.split('/')[1];
+        if (seg) base = '/' + seg + '/';
+      }
+      document.getElementById('home').href = base;
+      document.getElementById('logo').href = base;
+    })();
+  </script>
+</body>
+</html>

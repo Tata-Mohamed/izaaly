@@ -82,7 +82,8 @@
 
   <div class="topbar" aria-live="polite">
     <span class="msg active" data-edit="topbar.1">Bijoux en acier inoxydable façonnés à la demande</span>
-    <span class="msg" data-edit="topbar.2">Fabriqués avec soin et passion. Entre mes mains vos histoires prennent vie.</span>
+    <span class="msg" data-edit="topbar.2">Fabriqués avec soin et passion. Entre mes mains vos histoires prennent
+      vie.</span>
     <span class="msg" data-edit="topbar.3">Livrés dans un écrin IZAALY</span>
   </div>
 
@@ -99,7 +100,8 @@
     <a href="#" class="logo">IZAALY</a>
 
     <nav class="nav-right" aria-label="Navigation secondaire">
-      <a href="#categories">Nos créations</a>
+      <a href="#offres">Nos offres</a>
+      <a href="#inedits">Nos inédits</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -107,9 +109,10 @@
   <nav class="menu" id="menu" aria-hidden="true">
     <ul>
       <li><a href="#hero">Accueil</a></li>
+      <li><a href="#offres">Nos offres</a></li>
       <li><a href="#box">Les box</a></li>
+      <li><a href="#inedits">Nos inédits</a></li>
       <li><a href="#histoire">Notre histoire</a></li>
-      <li><a href="#categories">Nos créations</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="menu-social">
@@ -128,7 +131,7 @@
       <div class="tile-text center light">
         <h1 data-edit="hero.titre">du souvenir au bijou</h1>
         <p class="serif" data-edit="hero.texte">Quand un morceau du passé devient un essentiel du présent.</p>
-        <a href="#categories" class="btn" data-edit="hero.bouton">Créer</a>
+        <a href="#offres" class="btn" data-edit="hero.bouton">Créer</a>
       </div>
     </section>
 
@@ -138,7 +141,7 @@
       <div class="tile-text center light">
         <h2 data-edit="gift.titre">LAISSEZ-VOUS SURPRENDRE</h2>
         <p class="serif" data-edit="gift.texte">Chaque mois, IZAALY imagine de nouveaux bijoux rien que pour vous.</p>
-        <a href="#" class="btn" data-edit="gift.bouton">je veux</a>
+        <a href="#box" class="btn" data-edit="gift.bouton">je veux</a>
       </div>
     </section>
 
@@ -178,24 +181,25 @@
     </section>
 
     <!-- MODELES -->
-    <section class="section models">
+    <section class="section models" id="inedits">
       <h2 class="reveal" data-edit="modeles.titre">une fois, pas deux</h2>
-      <p class="serif reveal" data-edit="modeles.texte">Des bijoux créés en un seul exemplaire, pour celles qui aiment porter l'inattendu.</p>
+      <p class="serif reveal" data-edit="modeles.texte">Des bijoux créés en un seul exemplaire, pour celles qui aiment
+        porter l'inattendu.</p>
       <div class="rail" id="rail">
         <article class="model">
-          <div class="ph ph-m1" data-bg="modele1.image"><a href="#" class="btn small">Commencer</a></div>
+          <div class="ph ph-m1" data-bg="modele1.image"><a href="#" class="btn small">Ajouter au panier</a></div>
           <h3 data-edit="modele1.nom">Bague veronique</h3>
         </article>
         <article class="model">
-          <div class="ph ph-m2" data-bg="modele2.image"><a href="#" class="btn small">Commencer</a></div>
+          <div class="ph ph-m2" data-bg="modele2.image"><a href="#" class="btn small">Ajouter au panier</a></div>
           <h3 data-edit="modele2.nom">collier ambre</h3>
         </article>
         <article class="model">
-          <div class="ph ph-m3" data-bg="modele3.image"><a href="#" class="btn small">Commencer</a></div>
+          <div class="ph ph-m3" data-bg="modele3.image"><a href="#" class="btn small">Ajouter au panier</a></div>
           <h3 data-edit="modele3.nom">bracelet aventurine</h3>
         </article>
         <article class="model">
-          <div class="ph ph-m4" data-bg="modele4.image"><a href="#" class="btn small">Commencer</a></div>
+          <div class="ph ph-m4" data-bg="modele4.image"><a href="#" class="btn small">Ajouter au panier</a></div>
           <h3 data-edit="modele4.nom">boucles jade</h3>
         </article>
       </div>
@@ -397,7 +401,7 @@
             Une création personnelle que vous garderez près de vous au quotidien,
             comme un morceau de votre histoire qui ne vous quittera jamais.
           </p>
-          <a href="#surmesure" data-open="surmesure" class="btn reveal" data-edit="surmesure.bouton">Parler de mon
+          <a href="#contactForm" class="btn reveal" data-edit="surmesure.bouton">Parler de mon
             projet</a>
         </div>
 
@@ -405,7 +409,7 @@
     </div>
 
     <!-- OFFRES -->
-    <section class="section offers">
+    <section class="section offers" id="offres">
       <h2 class="center reveal" data-edit="offres.titre">Choisissez votre expérience</h2>
       <p class="serif center reveal" data-edit="offres.texte">Trois façons de créer votre bijou, selon votre envie.</p>
 
@@ -433,13 +437,14 @@
           </div>
         </a>
 
-        <a href="#carteblanche" data-open="carteblanche" class="offer-card reveal" style="transition-delay:.3s"> 
-          <img src="./assets/img/creation-personnalisee.jpg" alt="Création personnalisée Izaaly" data-img="offre3.image">
+        <a href="#carteblanche" data-open="carteblanche" class="offer-card reveal" style="transition-delay:.3s">
+          <img src="./assets/img/creation-personnalisee.jpg" alt="Création personnalisée Izaaly"
+            data-img="offre3.image">
           <div class="offer-body">
             <span class="offer-tag" data-edit="offre3.tag">Idéal pour se faire surprendre</span>
-<h3 data-edit="offre3.titre">Carte blanche</h3>
-<p class="serif" data-edit="offre3.texte">Une intention, mon imagination, une création.</p>
-<span class="btn" data-edit="offre3.bouton">Je me lance →</span>
+            <h3 data-edit="offre3.titre">Création personnalisée</h3>
+            <p class="serif" data-edit="offre3.texte">Une intention, mon imagination, une création.</p>
+            <span class="btn" data-edit="offre3.bouton">Je me lance →</span>
           </div>
         </a>
 
@@ -475,6 +480,28 @@
           <div class="box-body">
             <h3 data-edit="box1.nom">l'initiation</h3>
             <p class="box-desc" data-edit="box1.desc">Une création surprise pour découvrir l'univers IZAALY.</p>
+
+
+            <div class="box-includes">
+              <p class="box-includes-title">Dans votre box</p>
+              <ul class="box-includes-list">
+                <li>1 bijou</li>
+                <li>1 surprise (cadeau ou code promo)</li>
+              </ul>
+            </div>
+
+            <fieldset class="box-finish">
+              <legend>Choisissez votre finition</legend>
+              <label class="finish-option">
+                <input type="radio" name="finition-box1" value="doree" required>
+                <span class="finish-dot finish-gold"></span> Dorée
+              </label>
+              <label class="finish-option">
+                <input type="radio" name="finition-box1" value="argentee" required>
+                <span class="finish-dot finish-silver"></span> Argentée
+              </label>
+            </fieldset>
+
             <p class="price"><span data-price1>19,99</span> € <small data-edit="box1.unite">box unique</small></p>
             <p class="billed">&nbsp;</p>
             <ul>
@@ -492,6 +519,29 @@
           <div class="box-body">
             <h3 data-edit="box2.nom">Le rituel</h3>
             <p class="box-desc" data-edit="box2.desc">De nouvelles pièces imaginées chaque mois, pensée pour durer.</p>
+
+
+            <div class="box-includes">
+              <p class="box-includes-title">Dans votre box</p>
+              <ul class="box-includes-list">
+                <li>2 bijoux</li>
+                <li>1 surprise (cadeau ou code promo)</li>
+              </ul>
+            </div>
+
+            <fieldset class="box-finish">
+              <legend>Choisissez votre finition</legend>
+              <label class="finish-option">
+                <input type="radio" name="finition-box2" value="doree" required>
+                <span class="finish-dot finish-gold"></span> Dorée
+              </label>
+              <label class="finish-option">
+                <input type="radio" name="finition-box2" value="argentee" required>
+                <span class="finish-dot finish-silver"></span> Argentée
+              </label>
+            </fieldset>
+
+
             <p class="price"><span data-price>29,99</span> € <small data-edit="box2.unite">/mois</small></p>
             <p class="billed" data-billed>Facturé 89,97 € pour 3 mois</p>
             <ul>
@@ -508,6 +558,30 @@
           <div class="box-body">
             <h3 data-edit="box3.nom">L'Exception</h3>
             <p class="box-desc" data-edit="box3.desc">Une box plus riche, avec des pièces et des attentions en plus.</p>
+
+
+
+            <div class="box-includes">
+              <p class="box-includes-title">Dans votre box</p>
+              <ul class="box-includes-list">
+                <li>3 bijoux</li>
+                <li>1 surprise (cadeau ou code promo)</li>
+              </ul>
+            </div>
+
+            <fieldset class="box-finish">
+              <legend>Choisissez votre finition</legend>
+              <label class="finish-option">
+                <input type="radio" name="finition-box3" value="doree" required>
+                <span class="finish-dot finish-gold"></span> Dorée
+              </label>
+              <label class="finish-option">
+                <input type="radio" name="finition-box3" value="argentee" required>
+                <span class="finish-dot finish-silver"></span> Argentée
+              </label>
+            </fieldset>
+
+
             <p class="price"><span data-price>39,99</span> € <small data-edit="box3.unite">/mois</small></p>
             <p class="billed" data-billed>Facturé 119,97 € pour 3 mois</p>
             <ul>

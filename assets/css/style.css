@@ -1799,3 +1799,76 @@ html { overflow-x: clip; }
 @media (min-width: 900px) {
   .header::after { display: none; }
 }
+
+
+/* Contenu des box */
+.box-includes {
+  margin: 18px 0;
+}
+
+.box-includes-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+
+.box-includes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.box-includes-list li {
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+.box-includes-list li::before {
+  content: "✦";
+  margin-right: 10px;
+}
+
+/* Choix de finition */
+.box-finish {
+  border: 1px solid rgba(128, 128, 128, 0.35);
+  padding: 14px;
+  margin: 18px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.box-finish legend {
+  padding: 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.finish-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.finish-option input {
+  accent-color: #000;
+}
+
+.finish-dot {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1px solid #999;
+}
+
+.finish-gold {
+  background: #c6a15b;
+}
+
+.finish-silver {
+  background: #c5c7cb;
+}

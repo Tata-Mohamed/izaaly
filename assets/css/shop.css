@@ -1,0 +1,91 @@
+/* shop.css — panier, pièces inédites, paiement. Thème Izaaly : noir, blanc, doré (#b8893b), Jost. */
+
+/* ===== Bouton panier du header ===== */
+#header .cart-btn {
+  position: relative; display: grid; place-items: center;
+  width: 32px; height: 32px; padding: 0; border: 0; background: none;
+  color: var(--black); cursor: pointer; transition: transform .3s;
+}
+#header .cart-btn:hover { transform: translateY(-2px); }
+.header.has-cart::after { display: none; }              /* remplace le faux élément d'équilibrage mobile */
+.cart-count {
+  position: absolute; top: -6px; right: -9px; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 999px; background: #000; color: #fff; text-align: center;
+  font: 500 .7rem/18px "Jost", system-ui, sans-serif;
+}
+.cart-count[hidden] { display: none; }
+body.menu-open .header .cart-btn { color: #fff; }
+body.menu-open .header .cart-count { background: #fff; color: #000; }
+@media (min-width: 900px) {
+  #header .cart-btn { position: absolute; right: 3rem; top: 50%; translate: 0 -50%; }
+  #header .cart-btn:hover { transform: none; }
+  .header.has-cart .nav-right { padding-right: 3.6rem; }
+}
+
+/* ===== Pièces inédites ===== */
+.ph-prod {
+  aspect-ratio: 5 / 6; position: relative; display: flex; align-items: flex-end;
+  padding: 1.2rem; background: var(--beige-d) center / cover no-repeat; transition: filter .4s;
+}
+.model-desc { margin-top: .4rem; font-weight: 300; font-size: .95rem; line-height: 1.5; color: #555; }
+.model-price { margin-top: .5rem; font-weight: 500; letter-spacing: .06em; }
+.model.is-sold .ph { filter: grayscale(1) opacity(.75); }
+.model.is-sold h3 { color: #777; }
+.btn.small:disabled { opacity: .85; cursor: default; transform: none; background: #fff; color: #555; }
+.btn.small[aria-disabled="true"] { cursor: default; opacity: .85; }
+.btn.small[aria-disabled="true"]:hover { background: #fff; color: #000; transform: none; }
+
+/* ===== Tiroir ===== */
+.shop-lock { overflow: hidden; }
+.shop-over { position: fixed; inset: 0; z-index: 9100; background: rgba(0, 0, 0, .55); opacity: 0; transition: opacity .3s; }
+.shop-over.open { opacity: 1; }
+.shop-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 9101;
+  display: flex; flex-direction: column; width: min(420px, 100%);
+  background: #fff; color: #000; font-family: "Jost", system-ui, sans-serif;
+  transform: translateX(100%); transition: transform .32s cubic-bezier(.2, .7, .2, 1);
+}
+.shop-drawer.open { transform: none; }
+.shop-over[hidden], .shop-drawer[hidden], .shop-toast[hidden] { display: none; }
+.shop-top { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.4rem; border-bottom: 1px solid #000; }
+.shop-top h2 { font-size: 1.1rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.shop-x, .shop-rm {
+  border: 0; background: none; color: #000; cursor: pointer; text-decoration: underline;
+  text-underline-offset: 4px; font: 400 .85rem "Jost", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+}
+.shop-x:hover, .shop-rm:hover { color: var(--gold); }
+.shop-list { flex: 1; overflow-y: auto; list-style: none; padding: 0 1.4rem; }
+.shop-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(0, 0, 0, .15); }
+.shop-img { width: 72px; height: 86px; background: var(--beige-d) center / cover no-repeat; }
+.shop-name { font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: .9rem; }
+.shop-price { margin-top: .3rem; font-weight: 300; }
+.shop-empty { padding: 2rem 1.4rem; font-weight: 300; color: #555; }
+.shop-empty[hidden], .shop-foot[hidden] { display: none; }
+.shop-foot { padding: 1.2rem 1.4rem calc(1.2rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid #000; display: grid; gap: .9rem; }
+.shop-total { display: flex; justify-content: space-between; font-size: 1.1rem; }
+.shop-total strong { font-weight: 500; }
+.shop-note { font-size: .85rem; font-weight: 300; line-height: 1.5; color: #555; }
+.shop-err { min-height: 1.2em; color: #b00020; font-size: .9rem; }
+.shop-pay {
+  width: 100%; padding: 1rem 1.6rem; border: 1px solid #000; border-radius: 999px; background: #000; color: #fff; cursor: pointer;
+  font: 500 .95rem "Jost", sans-serif; letter-spacing: .16em; text-transform: uppercase; transition: background .3s, border-color .3s, transform .3s;
+}
+.shop-pay:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.shop-pay:disabled { opacity: .5; cursor: default; transform: none; }
+.shop-drawer :focus-visible, .shop-thanks :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* ===== Message et remerciement ===== */
+.shop-toast {
+  position: fixed; left: 50%; bottom: 1.4rem; z-index: 9200; translate: -50% 0; max-width: calc(100% - 2rem);
+  padding: .9rem 1.4rem; background: #000; color: #fff; font: 400 .95rem "Jost", sans-serif; text-align: center;
+  animation: shopRise .4s cubic-bezier(.2, .7, .2, 1);
+}
+.shop-toast.bad { background: #b00020; }
+.shop-thanks { position: fixed; inset: 0; z-index: 9300; display: grid; place-items: center; padding: 1.4rem; background: rgba(0, 0, 0, .7); }
+.shop-thanks-box { width: min(460px, 100%); display: grid; gap: 1.2rem; padding: 2rem; background: #fff; color: #000; text-align: center; font-family: "Jost", sans-serif; animation: shopRise .5s cubic-bezier(.2, .7, .2, 1); }
+.shop-thanks-box h2 { font-size: 1.4rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; }
+.shop-thanks-box p { font-weight: 300; line-height: 1.6; }
+@keyframes shopRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .shop-drawer, .shop-over, .shop-toast, .shop-thanks-box { transition: none !important; animation: none !important; }
+}

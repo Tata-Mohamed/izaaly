@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Votre commande – Izaaly</title>
+  <link rel="icon" href="./assets/img/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/shop.css">
+</head>
+
+<body>
+
+  <header class="header has-cart" id="header" style="justify-content:center">
+    <a href="./" class="logo">IZAALY</a>
+  </header>
+
+  <main class="order" id="commande">
+    <a class="order-back" href="../izaaly-main/index.html">&larr; Continuer mes achats</a>
+    <h1>Votre commande</h1>
+
+    <p class="order-lead" id="rc-empty" hidden>
+      Votre panier est vide. <a href="./#inedits">Découvrir les pièces inédites</a> ou
+      <a href="./#box">choisir une box</a>.
+    </p>
+
+    <div class="order-grid" id="rc-main" hidden>
+
+      <!-- RÉCAPITULATIF -->
+      <section class="order-card" aria-labelledby="rc-t1">
+        <h2 id="rc-t1">Récapitulatif</h2>
+        <ul class="shop-list" id="rc-lines"></ul>
+        <div class="order-sums">
+          <div><span>Sous-total</span><span id="rc-sub"></span></div>
+          <div><span>Livraison</span><span id="rc-ship"></span></div>
+          <div class="is-total"><span>Total</span><strong id="rc-total"></strong></div>
+        </div>
+        <p class="order-note" id="rc-boxnote" hidden>
+          Votre box est réglée en une fois pour la durée choisie. Une box vous est envoyée chaque mois,
+          sans prélèvement automatique.
+        </p>
+        <p class="order-note" id="rc-piecenote" hidden>
+          Chaque pièce est unique. Elle est réservée pour vous pendant le paiement.
+        </p>
+      </section>
+
+      <!-- PAIEMENT -->
+      <section class="order-card is-pay" aria-labelledby="rc-t2">
+        <h2 id="rc-t2">Paiement</h2>
+
+        <p class="order-off" id="rc-off">
+          Le paiement en ligne ouvrira très prochainement. Vous pouvez déjà composer votre panier :
+          il est conservé sur cet appareil.
+        </p>
+
+        <div class="pm-group" role="group" aria-label="Mode de paiement">
+          <button type="button" class="pm" data-method="card" aria-pressed="false" disabled>
+            <strong>Carte bancaire</strong><span>Visa, Mastercard, Apple Pay, Google Pay</span>
+          </button>
+          <button type="button" class="pm" data-method="paypal" aria-pressed="false" disabled>
+            <strong>PayPal</strong><span>Payez avec votre compte PayPal</span>
+          </button>
+        </div>
+
+        <label class="order-cgv">
+          <input type="checkbox" id="rc-cgv">
+          <span>J'ai lu et j'accepte les
+            <a href="./cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>.</span>
+        </label>
+
+        <p class="order-note">En cliquant sur «&nbsp;Payer&nbsp;», vous passez une commande avec obligation de paiement.</p>
+        <p class="shop-err" id="rc-msg" role="alert"></p>
+        <button type="button" class="shop-pay" id="rc-pay" disabled>Payer</button>
+        <p class="order-secure">Paiement sécurisé par Stripe. Vos coordonnées bancaires ne sont jamais conservées sur ce site.</p>
+      </section>
+
+    </div>
+
+    <section id="rc-thanks" hidden>
+      <h2>Merci pour votre commande</h2>
+      <p class="order-lead">
+        Votre paiement est confirmé. Un e-mail de confirmation vous est envoyé, et nous préparons
+        votre commande avec soin.
+      </p>
+      <p class="order-lead"><a href="./">Retourner à l'accueil</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="logo">IZAALY</span>
+    <nav class="footer-social" aria-label="Informations légales">
+      <a href="./mentions-legales.html">Mentions légales</a>
+      <a href="./cgv.html">CGV</a>
+      <a href="./confidentialite.html">Confidentialité</a>
+    </nav>
+    <p class="serif">© 2026 Izaaly. Tous droits réservés.</p>
+  </footer>
+
+  <script src="./assets/js/content.js"></script>
+  <script src="./assets/js/shop.js"></script>
+</body>
+
+</html>

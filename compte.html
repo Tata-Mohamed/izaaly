@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mon compte – Izaaly</title>
+  <link rel="icon" href="./assets/img/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/shop.css">
+</head>
+
+<body>
+
+  <header class="header has-cart" id="header" style="justify-content:center">
+    <a href="./" class="logo">IZAALY</a>
+  </header>
+
+  <main class="order" id="compte">
+    <a class="order-back" href="./">&larr; Retour au site</a>
+    <h1>Mon compte</h1>
+
+    <!-- Connexion / création -->
+    <div class="order-grid" id="cp-auth">
+      <section class="order-card" aria-labelledby="cp-t1">
+        <h2 id="cp-t1">Me connecter</h2>
+        <form id="cp-login" class="cp-form" novalidate>
+          <label class="of">E-mail <input type="email" name="email" autocomplete="email" required></label>
+          <label class="of">Mot de passe <input type="password" name="pw" autocomplete="current-password" required></label>
+          <button type="submit" class="shop-pay">Se connecter</button>
+          <button type="button" class="box-add" id="cp-forgot">Mot de passe oublié&nbsp;?</button>
+          <p class="cp-msg" id="cp-lmsg" role="alert"></p>
+        </form>
+      </section>
+      <section class="order-card" aria-labelledby="cp-t2">
+        <h2 id="cp-t2">Créer un compte</h2>
+        <form id="cp-signup" class="cp-form" novalidate>
+          <label class="of">E-mail <input type="email" name="email" autocomplete="email" required></label>
+          <label class="of">Mot de passe (8 caractères minimum) <input type="password" name="pw" autocomplete="new-password" required></label>
+          <p class="order-note">Vos données servent uniquement à gérer votre compte et vos commandes.
+            <a href="./confidentialite.html">Politique de confidentialité</a>.</p>
+          <button type="submit" class="shop-pay">Créer mon compte</button>
+          <p class="cp-msg" id="cp-smsg" role="alert"></p>
+        </form>
+      </section>
+    </div>
+
+    <!-- Nouveau mot de passe (lien reçu par e-mail) -->
+    <form class="order-card cp-form" id="cp-reset" hidden novalidate>
+      <h2>Choisir un nouveau mot de passe</h2>
+      <label class="of">Nouveau mot de passe <input type="password" name="pw" autocomplete="new-password" required></label>
+      <button type="submit" class="shop-pay">Enregistrer</button>
+      <p class="cp-msg" id="cp-rmsg" role="alert"></p>
+    </form>
+
+    <!-- Espace client -->
+    <section id="cp-me" hidden>
+      <div class="acct-in">
+        <p>Connecté : <strong id="cp-email"></strong></p>
+        <button type="button" class="ob ghost" id="cp-out">Se déconnecter</button>
+      </div>
+      <h2 class="order-sub">Mes commandes</h2>
+      <ul class="cp-orders" id="cp-orders"></ul>
+      <p class="order-note">Pour une question sur une commande ou pour arrêter des mensualités, écrivez-nous depuis la page contact du site.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="logo">IZAALY</span>
+    <nav class="footer-social" aria-label="Informations légales">
+      <a href="./mentions-legales.html">Mentions légales</a>
+      <a href="./cgv.html">CGV</a>
+      <a href="./confidentialite.html">Confidentialité</a>
+    </nav>
+    <p class="serif">© 2026 Izaaly. Tous droits réservés.</p>
+  </footer>
+
+  <script src="./assets/js/content.js"></script>
+  <script src="./assets/js/compte.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+/* shop.css — panier, pièces inédites, box, page de commande. Thème Izaaly : noir, blanc, doré (#b8893b), Jost. */
+
+/* ===== Bouton panier du header ===== */
+#header .cart-btn {
+  position: relative; display: grid; place-items: center;
+  width: 32px; height: 32px; padding: 0; border: 0; background: none;
+  color: var(--black); cursor: pointer; transition: transform .3s;
+}
+#header .cart-btn:hover { transform: translateY(-2px); }
+.header.has-cart::after { display: none; }              /* remplace le faux élément d'équilibrage mobile */
+.cart-count {
+  position: absolute; top: -6px; right: -9px; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 999px; background: #000; color: #fff; text-align: center;
+  font: 500 .7rem/18px "Jost", system-ui, sans-serif;
+}
+.cart-count[hidden] { display: none; }
+body.menu-open .header .cart-btn { color: #fff; }
+body.menu-open .header .cart-count { background: #fff; color: #000; }
+@media (min-width: 900px) {
+  #header .cart-btn { position: absolute; right: 3rem; top: 50%; translate: 0 -50%; }
+  #header .cart-btn:hover { transform: none; }
+  .header.has-cart .nav-right { padding-right: 3.6rem; }
+}
+
+/* ===== Pièces inédites ===== */
+.ph-prod {
+  aspect-ratio: 5 / 6; position: relative; display: flex; align-items: flex-end;
+  padding: 1.2rem; background: var(--beige-d) center / cover no-repeat; transition: filter .4s;
+}
+.model-desc { margin-top: .4rem; font-weight: 300; font-size: .95rem; line-height: 1.5; color: #555; }
+.model-price { margin-top: .5rem; font-weight: 500; letter-spacing: .06em; }
+.model.is-sold .ph { filter: grayscale(1) opacity(.75); }
+.model.is-sold h3 { color: #777; }
+.btn.small:disabled { opacity: .85; cursor: default; transform: none; background: #fff; color: #555; }
+.btn.small[aria-disabled="true"] { cursor: default; opacity: .85; }
+.btn.small[aria-disabled="true"]:hover { background: #fff; color: #000; transform: none; }
+
+/* ===== Box : lien « Ajouter au panier » sous le bouton principal ===== */
+.box-add {
+  justify-self: start; margin-top: .2rem; padding: 0; border: 0; background: none; color: inherit; cursor: pointer;
+  font: 400 .85rem "Jost", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  text-decoration: underline; text-underline-offset: 4px; transition: color .3s;
+}
+.box-add:hover { color: var(--gold); }
+
+/* ===== Tiroir ===== */
+.shop-lock { overflow: hidden; }
+.shop-over { position: fixed; inset: 0; z-index: 9100; background: rgba(0, 0, 0, .55); opacity: 0; transition: opacity .3s; }
+.shop-over.open { opacity: 1; }
+.shop-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 9101;
+  display: flex; flex-direction: column; width: min(420px, 100%);
+  background: #fff; color: #000; font-family: "Jost", system-ui, sans-serif;
+  transform: translateX(100%); transition: transform .32s cubic-bezier(.2, .7, .2, 1);
+}
+.shop-drawer.open { transform: none; }
+.shop-over[hidden], .shop-drawer[hidden], .shop-toast[hidden] { display: none; }
+.shop-top { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.4rem; border-bottom: 1px solid #000; }
+.shop-top h2 { font-size: 1.1rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.shop-x, .shop-rm {
+  border: 0; background: none; color: #000; cursor: pointer; text-decoration: underline;
+  text-underline-offset: 4px; font: 400 .85rem "Jost", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+}
+.shop-x:hover, .shop-rm:hover { color: var(--gold); }
+.shop-list { flex: 1; overflow-y: auto; list-style: none; padding: 0 1.4rem; }
+.shop-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(0, 0, 0, .15); }
+.shop-img { width: 72px; height: 86px; background: var(--beige-d) center / cover no-repeat; }
+.shop-img.is-box { display: grid; place-items: center; background: #000; color: var(--gold-l); font: 500 .8rem "Jost", sans-serif; letter-spacing: .25em; }
+.shop-name { font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: .9rem; }
+.shop-detail { margin-top: .25rem; font-weight: 300; font-size: .85rem; line-height: 1.4; color: #555; }
+.shop-price { margin-top: .3rem; font-weight: 300; }
+.shop-empty { padding: 2rem 1.4rem; font-weight: 300; color: #555; }
+.shop-empty[hidden], .shop-foot[hidden] { display: none; }
+.shop-foot { padding: 1.2rem 1.4rem calc(1.2rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid #000; display: grid; gap: .9rem; }
+.shop-total { display: flex; justify-content: space-between; font-size: 1.1rem; }
+.shop-total strong { font-weight: 500; }
+.shop-note { font-size: .85rem; font-weight: 300; line-height: 1.5; color: #555; }
+.shop-methods { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: #777; }
+.shop-err { min-height: 1.2em; color: #b00020; font-size: .9rem; }
+.shop-pay {
+  width: 100%; padding: 1rem 1.6rem; border: 1px solid #000; border-radius: 999px; background: #000; color: #fff; cursor: pointer;
+  font: 500 .95rem "Jost", sans-serif; letter-spacing: .16em; text-transform: uppercase; transition: background .3s, border-color .3s, transform .3s;
+}
+.shop-pay:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+.shop-pay:disabled { opacity: .45; cursor: default; transform: none; background: #000; border-color: #000; }
+.shop-drawer :focus-visible, .shop-thanks :focus-visible, .order :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* ===== Message et remerciement ===== */
+.shop-toast {
+  position: fixed; left: 50%; bottom: 1.4rem; z-index: 9200; translate: -50% 0; max-width: calc(100% - 2rem);
+  padding: .9rem 1.4rem; background: #000; color: #fff; font: 400 .95rem "Jost", sans-serif; text-align: center;
+  animation: shopRise .4s cubic-bezier(.2, .7, .2, 1);
+}
+.shop-toast.bad { background: #b00020; }
+.shop-thanks { position: fixed; inset: 0; z-index: 9300; display: grid; place-items: center; padding: 1.4rem; background: rgba(0, 0, 0, .7); }
+.shop-thanks-box { width: min(460px, 100%); display: grid; gap: 1.2rem; padding: 2rem; background: #fff; color: #000; text-align: center; font-family: "Jost", sans-serif; animation: shopRise .5s cubic-bezier(.2, .7, .2, 1); }
+.shop-thanks-box h2 { font-size: 1.4rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; }
+.shop-thanks-box p { font-weight: 300; line-height: 1.6; }
+@keyframes shopRise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ===== Page de commande ===== */
+.order { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+.order-back { display: inline-block; margin-bottom: 1.4rem; font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 4px; }
+.order-back:hover { color: var(--gold); }
+.order h1 { margin-bottom: 2rem; font-size: clamp(1.8rem, 5vw, 3rem); }
+.order [hidden] { display: none; }
+.order-lead { font-weight: 300; line-height: 1.7; max-width: 52ch; }
+.order-lead a { text-decoration: underline; text-underline-offset: 4px; }
+.order-grid { display: grid; gap: 1.5rem; align-items: start; }
+.order-card { display: grid; gap: 1.2rem; padding: 1.6rem; border: 1px solid #000; background: #fff; }
+.order-card h2 { font-size: 1.1rem; font-weight: 500; letter-spacing: .14em; }
+.order-card .shop-list { flex: none; overflow: visible; padding: 0; }
+.order-sums { display: grid; gap: .7rem; }
+.order-sums div { display: flex; justify-content: space-between; gap: 1rem; font-weight: 300; }
+.order-sums .is-total { padding-top: .8rem; border-top: 1px solid #000; font-size: 1.2rem; font-weight: 500; }
+.order-note { font-size: .9rem; font-weight: 300; line-height: 1.6; color: #444; }
+.order-off { padding: 1rem 1.2rem; border: 1px dashed var(--gold); background: #faf6ee; font-weight: 300; line-height: 1.6; }
+.pm-group { display: grid; gap: .7rem; }
+.pm {
+  display: grid; gap: .2rem; text-align: left; padding: 1rem 1.2rem; border: 1px solid #000; background: #fff; color: #000; cursor: pointer;
+  font-family: "Jost", sans-serif; transition: background .25s, color .25s;
+}
+.pm strong { font-weight: 500; letter-spacing: .1em; text-transform: uppercase; font-size: .95rem; }
+.pm span { font-weight: 300; font-size: .85rem; opacity: .8; }
+.pm[aria-pressed="true"] { background: #000; color: #fff; }
+.pm.is-off { cursor: not-allowed; border-style: dashed; border-color: #999; color: #777; background: #f6f6f6; }
+.order-cgv { display: flex; gap: .7rem; align-items: flex-start; font-size: .9rem; line-height: 1.5; cursor: pointer; }
+.order-cgv input { margin-top: .25rem; width: 1.1rem; height: 1.1rem; accent-color: #000; flex: none; }
+.order-cgv a { text-decoration: underline; text-underline-offset: 3px; }
+.order-secure { font-size: .8rem; letter-spacing: .06em; color: #666; text-align: center; }
+@media (min-width: 900px) {
+  .order-grid { grid-template-columns: 1.15fr 1fr; gap: 2rem; }
+  .order-card.is-pay { position: sticky; top: 90px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shop-drawer, .shop-over, .shop-toast, .shop-thanks-box { transition: none !important; animation: none !important; }
+}
+
+/* ===== Page de commande : étapes, choix, formulaires, compte ===== */
+.order-steps { display: grid; gap: 1.5rem; }
+.step-n { margin-right: .6rem; color: var(--gold); letter-spacing: .2em; }
+.order-sub { font-size: .8rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #555; }
+h2.order-sub { margin: 2rem 0 1rem; }
+.opt-group { display: grid; gap: .7rem; }
+.opt { position: relative; display: block; cursor: pointer; }
+.opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.opt > span { display: grid; gap: .25rem; padding: 1rem 1.2rem; border: 1px solid #000; background: #fff; color: #000; transition: background .25s, color .25s; }
+.opt strong { font-weight: 500; letter-spacing: .1em; text-transform: uppercase; font-size: .95rem; }
+.opt small { font-weight: 300; font-size: .88rem; line-height: 1.4; opacity: .85; }
+.opt input:checked + span { background: #000; color: #fff; }
+.opt input:disabled { cursor: not-allowed; }
+.opt input:disabled + span { border-style: dashed; border-color: #999; color: #777; background: #f6f6f6; }
+.opt input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 3px; }
+.of { display: grid; gap: .4rem; margin-top: .9rem; font-size: .9rem; color: #444; }
+.of input { font: inherit; font-size: 1.05rem; padding: .7rem 0; border: 0; border-bottom: 1px solid #000; border-radius: 0; background: none; color: #000; outline: none; width: 100%; }
+.of input:focus { border-bottom-width: 2px; }
+.of-row { display: grid; gap: 1rem; }
+.of-actions, .acct-in { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.acct-in { margin-top: 0; }
+.ob { padding: .8rem 1.4rem; border: 1px solid #000; border-radius: 999px; background: #000; color: #fff; cursor: pointer; font: 500 .8rem "Jost", sans-serif; letter-spacing: .12em; text-transform: uppercase; transition: background .3s, color .3s; }
+.ob:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+.ob.ghost { background: #fff; color: #000; }
+.cp-msg { min-height: 1.2em; margin-top: .6rem; font-size: .9rem; line-height: 1.5; color: #b00020; }
+.cp-msg.ok { color: #1c6b36; }
+.cp-form { display: grid; gap: .6rem; align-content: start; }
+.cp-form .box-add { justify-self: start; }
+.cp-orders { list-style: none; display: grid; gap: .8rem; padding: 0; }
+.cp-order { padding: 1rem 1.2rem; border: 1px solid #000; }
+.cp-h { font-weight: 500; letter-spacing: .06em; }
+.cp-d { margin-top: .3rem; font-weight: 300; font-size: .92rem; color: #444; }
+@media (min-width: 560px) { .of-row { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) {
+  .order-grid:has(.order-steps) { grid-template-columns: 1.15fr 1fr; }
+  .order-grid .order-steps { grid-column: 1; grid-row: 1; }
+  .order-grid .is-recap { grid-column: 2; grid-row: 1; position: sticky; top: 90px; }
+  .order-card.is-pay { position: static; }
+}

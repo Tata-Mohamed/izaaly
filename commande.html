@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Votre commande – Izaaly</title>
+  <link rel="icon" href="./assets/img/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/shop.css">
+</head>
+
+<body>
+
+  <header class="header has-cart" id="header" style="justify-content:center">
+    <a href="./" class="logo">IZAALY</a>
+  </header>
+
+  <main class="order" id="commande">
+    <a class="order-back" href="./#inedits">&larr; Continuer mes achats</a>
+    <h1>Votre commande</h1>
+
+    <p class="order-lead" id="rc-empty" hidden>
+      Votre panier est vide. <a href="./#inedits">Découvrir les pièces inédites</a> ou
+      <a href="./#box">choisir une box</a>.
+    </p>
+
+    <div class="order-grid" id="rc-main" hidden>
+
+      <!-- RÉCAPITULATIF (en haut sur mobile, à droite sur ordinateur) -->
+      <section class="order-card is-recap" aria-labelledby="rc-t0">
+        <h2 id="rc-t0">Récapitulatif</h2>
+        <ul class="shop-list" id="rc-lines"></ul>
+        <div class="order-sums">
+          <div><span>Sous-total</span><span id="rc-sub"></span></div>
+          <div><span>Livraison</span><span id="rc-ship"></span></div>
+          <div class="is-total"><span id="rc-total-label">Total</span><strong id="rc-total"></strong></div>
+          <p class="order-note" id="rc-later" hidden></p>
+        </div>
+        <p class="order-note" id="rc-boxnote" hidden></p>
+        <p class="order-note" id="rc-piecenote" hidden>
+          Chaque pièce est unique. Elle est réservée pour vous pendant le paiement.
+        </p>
+      </section>
+
+      <div class="order-steps">
+
+        <!-- 1. COMPTE OU INVITÉ -->
+        <section class="order-card" id="rc-acct" aria-labelledby="rc-t1" hidden>
+          <h2 id="rc-t1"><span class="step-n">01</span> Vos informations</h2>
+
+          <div id="rc-acct-choice" class="opt-group">
+            <label class="opt"><input type="radio" name="rc-who" id="rc-who-invite" value="invite" checked>
+              <span><strong>Continuer en invité</strong><small>Aucun compte à créer. Votre e-mail vous est demandé sur la page de paiement.</small></span></label>
+            <label class="opt"><input type="radio" name="rc-who" id="rc-who-compte" value="compte">
+              <span><strong>Me connecter ou créer un compte</strong><small>Retrouvez vos commandes à tout moment et gagnez du temps la prochaine fois.</small></span></label>
+          </div>
+
+          <div id="rc-acct-form" hidden>
+            <label class="of">E-mail <input type="email" id="rc-a-email" autocomplete="email"></label>
+            <label class="of">Mot de passe (8 caractères minimum) <input type="password" id="rc-a-pw" autocomplete="current-password"></label>
+            <div class="of-actions">
+              <button type="button" class="ob" id="rc-a-login">Se connecter</button>
+              <button type="button" class="ob ghost" id="rc-a-signup">Créer mon compte</button>
+            </div>
+            <p class="cp-msg" id="rc-acct-msg" role="alert"></p>
+          </div>
+
+          <div id="rc-acct-in" class="acct-in" hidden>
+            <p>Connecté : <strong id="rc-acct-email"></strong></p>
+            <button type="button" class="ob ghost" id="rc-a-out">Se déconnecter</button>
+          </div>
+        </section>
+
+        <!-- 2. LIVRAISON -->
+        <section class="order-card" aria-labelledby="rc-t2">
+          <h2 id="rc-t2"><span class="step-n">02</span> Livraison</h2>
+          <div class="opt-group">
+            <label class="opt"><input type="radio" name="rc-ship" id="rc-sh-dom" value="domicile" checked>
+              <span><strong>À domicile</strong><small id="rc-sh-dom-fee"></small></span></label>
+            <label class="opt"><input type="radio" name="rc-ship" id="rc-sh-rel" value="relais">
+              <span><strong>En point relais</strong><small id="rc-sh-rel-fee"></small></span></label>
+          </div>
+          <p class="order-note">Pour une livraison à domicile, l'adresse vous est demandée sur la page de paiement sécurisée.</p>
+
+          <div id="rc-relais" hidden>
+            <p class="order-note">Indiquez le point relais où vous souhaitez récupérer votre colis.</p>
+            <label class="of">Nom du point relais <input type="text" id="rl-nom" maxlength="80"></label>
+            <label class="of">Adresse <input type="text" id="rl-adr" maxlength="100"></label>
+            <div class="of-row">
+              <label class="of">Code postal <input type="text" id="rl-cp" maxlength="10" inputmode="numeric"></label>
+              <label class="of">Ville <input type="text" id="rl-ville" maxlength="60"></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. PAIEMENT -->
+        <section class="order-card" aria-labelledby="rc-t3">
+          <h2 id="rc-t3"><span class="step-n">03</span> Paiement</h2>
+
+          <p class="order-off" id="rc-off">
+            Le paiement en ligne ouvrira très prochainement. Vous pouvez déjà composer votre panier :
+            il est conservé sur cet appareil.
+          </p>
+
+          <div id="rc-boxpay" hidden>
+            <p class="order-sub">Comment souhaitez-vous régler votre box&nbsp;?</p>
+            <div class="opt-group">
+              <label class="opt"><input type="radio" name="rc-bp" id="rc-bp-once" value="comptant" checked>
+                <span><strong>En une fois</strong><small id="rc-bp-once-amt"></small></span></label>
+              <label class="opt"><input type="radio" name="rc-bp" id="rc-bp-month" value="mensuel">
+                <span><strong>En mensualités</strong><small id="rc-bp-month-amt"></small></span></label>
+            </div>
+          </div>
+
+          <p class="order-sub">Mode de paiement</p>
+          <div class="pm-group" role="group" aria-label="Mode de paiement">
+            <button type="button" class="pm" data-method="card" aria-pressed="false" disabled>
+              <strong>Carte bancaire</strong><span>Visa, Mastercard, Apple Pay, Google Pay</span>
+            </button>
+            <button type="button" class="pm" data-method="paypal" aria-pressed="false" disabled>
+              <strong>PayPal</strong><span>Paiement en une fois uniquement</span>
+            </button>
+          </div>
+
+          <label class="order-cgv">
+            <input type="checkbox" id="rc-cgv">
+            <span>J'ai lu et j'accepte les
+              <a href="./cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>.</span>
+          </label>
+
+          <p class="order-note">En cliquant sur «&nbsp;Payer&nbsp;», vous passez une commande avec obligation de paiement.</p>
+          <p class="shop-err" id="rc-msg" role="alert"></p>
+          <button type="button" class="shop-pay" id="rc-pay" disabled>Payer</button>
+          <p class="order-secure">Paiement sécurisé par Stripe. Vos coordonnées bancaires ne sont jamais conservées sur ce site.</p>
+        </section>
+
+      </div>
+    </div>
+
+    <section id="rc-thanks" hidden>
+      <h2>Merci pour votre commande</h2>
+      <p class="order-lead">
+        Votre paiement est confirmé. Un e-mail de confirmation vous est envoyé, et nous préparons
+        votre commande avec soin.
+      </p>
+      <p class="order-lead"><a href="./compte.html">Voir mes commandes</a> · <a href="./">Retourner à l'accueil</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="logo">IZAALY</span>
+    <nav class="footer-social" aria-label="Informations légales">
+      <a href="./mentions-legales.html">Mentions légales</a>
+      <a href="./cgv.html">CGV</a>
+      <a href="./confidentialite.html">Confidentialité</a>
+    </nav>
+    <p class="serif">© 2026 Izaaly. Tous droits réservés.</p>
+  </footer>
+
+  <script src="./assets/js/content.js"></script>
+  <script src="./assets/js/compte.js"></script>
+  <script src="./assets/js/shop.js"></script>
+</body>
+
+</html>

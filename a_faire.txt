@@ -1,0 +1,11 @@
+
+Ajouter un panier, et par la suite l'associer à un compte
+
+AJouter la rubrique pour la livraison (points relais ou domicile)
+
+Soit créer un compte, soit rester en tant qu'invité
+
+----------------------------------------------------
+
+Mettre à jour les titres dans me formulaire
+

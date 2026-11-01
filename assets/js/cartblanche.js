@@ -10,7 +10,7 @@
   const CGV_URL = './cgv.html';
   const POUR = ['Pour moi', 'Pour offrir'];
   const BIJOUX = ['Bague', 'Collier ou pendentif', 'Bracelet', 'Boucles d\u2019oreilles', 'Je vous laisse choisir'];
-  const MATIERES = ['Or', 'Argent', 'Doré', 'Peu importe'];
+  const MATIERES = ['Argent', 'Doré', 'Peu importe'];
   const COULEURS = ['Sobres (noir, blanc, beige)', 'Chaudes (doré, rouge, orangé)', 'Douces (pastel)', 'Naturelles (vert, terre)', 'Je ne sais pas'];
   const UNIVERS = ['Discret et minimal', 'Délicat et précieux', 'Audacieux et affirmé', 'Je vous laisse proposer'];
   const ROUGES = ['Rien de trop voyant', 'Pas de pierres', 'Pas de perles', 'Pas de symboles (cœur, étoile\u2026)', 'Pas de grand pendentif'];

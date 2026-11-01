@@ -9,7 +9,7 @@
   const LEGAL_URL = './confidentialite.html';
   const OBJETS = ['Foulard, écharpe ou tissu', 'Bijou ancien', 'Vêtement', 'Lettre ou écrit', 'Objet du quotidien', 'Autre chose'];
   const BIJOUX = ['Bague', 'Collier ou pendentif', 'Bracelet', 'Boucles d\u2019oreilles', 'Je ne sais pas encore'];
-  const MATIERES = ['Or', 'Argent', 'Doré', 'Peu importe'];
+  const MATIERES = ['Argent', 'Doré', 'Peu importe'];
   const UNIVERS = ['Discret et minimal', 'Délicat et précieux', 'Audacieux et affirmé', 'Je vous laisse proposer'];
   const BUDGETS = ['Moins de 150 €', '150 \u2013 300 €', '300 \u2013 500 €', 'Plus de 500 €', 'Je ne sais pas, conseillez-moi'];
 

@@ -49,7 +49,7 @@
       "sameAs": [
         "https://www.instagram.com/izaaly.collections/",
         "https://www.tiktok.com/@izaaly.collections",
-        "https://www.facebook.com/people/Izaaly-Collections/61576125283925/#"
+        "https://pinterest.com/izaaly"
       ]
     },
     {
@@ -78,7 +78,7 @@
     <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
       rel="noopener">Instagram</a>
     <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank" rel="noopener">TikTok</a>
-    <a href="https://www.facebook.com/people/Izaaly-Collections/61576125283925/#" data-social="facebook" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
   </aside>
 
   <div class="topbar" aria-live="polite">
@@ -93,35 +93,35 @@
       aria-controls="menu"><span></span><span></span><span></span></button>
 
     <nav class="nav-left" aria-label="Navigation principale">
-      <a href="#hero">Accueil</a>
-      <a href="#box">Les box</a>
-      <a href="#histoire">Notre histoire</a>
+      <a href="#hero" data-edit="nav.accueil">Accueil</a>
+      <a href="#box" data-edit="nav.box">Les box</a>
+      <a href="#histoire" data-edit="nav.histoire">Notre histoire</a>
     </nav>
 
     <a href="#" class="logo">IZAALY</a>
 
     <nav class="nav-right" aria-label="Navigation secondaire">
-      <a href="#offres">Nos offres</a>
-      <a href="#inedits">Nos inédits</a>
-      <a href="#contact">Contact</a>
+      <a href="#offres" data-edit="nav.offres">Nos offres</a>
+      <a href="#inedits" data-edit="nav.inedits">Nos inédits</a>
+      <a href="#contact" data-edit="nav.contact">Contact</a>
     </nav>
   </header>
 
   <nav class="menu" id="menu" aria-hidden="true">
     <ul>
-      <li><a href="#hero">Accueil</a></li>
-      <li><a href="#offres">Nos offres</a></li>
-      <li><a href="#box">Les box</a></li>
-      <li><a href="#inedits">Nos inédits</a></li>
-      <li><a href="#histoire">Notre histoire</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#hero" data-edit="nav.accueil">Accueil</a></li>
+      <li><a href="#offres" data-edit="nav.offres">Nos offres</a></li>
+      <li><a href="#box" data-edit="nav.box">Les box</a></li>
+      <li><a href="#inedits" data-edit="nav.inedits">Nos inédits</a></li>
+      <li><a href="#histoire" data-edit="nav.histoire">Notre histoire</a></li>
+      <li><a href="#contact" data-edit="nav.contact">Contact</a></li>
     </ul>
     <div class="menu-social">
       <a href="https://www.instagram.com/izaaly.collections/" data-social="instagram" target="_blank"
         rel="noopener">Instagram</a>
       <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
         rel="noopener">TikTok</a>
-      <a href="https://www.facebook.com/people/Izaaly-Collections/61576125283925/#" data-social="facebook" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
     </div>
   </nav>
 
@@ -484,15 +484,15 @@
 
 
             <div class="box-includes">
-              <p class="box-includes-title">Dans votre box</p>
+              <p class="box-includes-title" data-edit="box1.inclus.titre">Dans votre box</p>
               <ul class="box-includes-list">
-                <li>1 bijou</li>
-                <li>1 surprise (cadeau ou code promo)</li>
+                <li data-edit="box1.inclus.bijoux">1 bijou</li>
+                <li data-edit="box1.inclus.surprise">1 surprise (cadeau ou code promo)</li>
               </ul>
             </div>
 
             <fieldset class="box-finish">
-              <legend>Choisissez votre finition</legend>
+              <legend data-edit="box1.finition.titre">Choisissez votre finition</legend>
               <label class="finish-option">
                 <input type="radio" name="finition-box1" value="doree" required>
                 <span class="finish-dot finish-gold"></span> Dorée
@@ -523,15 +523,15 @@
 
 
             <div class="box-includes">
-              <p class="box-includes-title">Dans votre box</p>
+              <p class="box-includes-title" data-edit="box2.inclus.titre">Dans votre box</p>
               <ul class="box-includes-list">
-                <li>2 bijoux</li>
-                <li>1 surprise (cadeau ou code promo)</li>
+                <li data-edit="box2.inclus.bijoux">2 bijoux</li>
+                <li data-edit="box2.inclus.surprise">1 surprise (cadeau ou code promo)</li>
               </ul>
             </div>
 
             <fieldset class="box-finish">
-              <legend>Choisissez votre finition</legend>
+              <legend data-edit="box2.finition.titre">Choisissez votre finition</legend>
               <label class="finish-option">
                 <input type="radio" name="finition-box2" value="doree" required>
                 <span class="finish-dot finish-gold"></span> Dorée
@@ -563,15 +563,15 @@
 
 
             <div class="box-includes">
-              <p class="box-includes-title">Dans votre box</p>
+              <p class="box-includes-title" data-edit="box3.inclus.titre">Dans votre box</p>
               <ul class="box-includes-list">
-                <li>3 bijoux</li>
-                <li>1 surprise (cadeau ou code promo)</li>
+                <li data-edit="box3.inclus.bijoux">3 bijoux</li>
+                <li data-edit="box3.inclus.surprise">1 surprise (cadeau ou code promo)</li>
               </ul>
             </div>
 
             <fieldset class="box-finish">
-              <legend>Choisissez votre finition</legend>
+              <legend data-edit="box3.finition.titre">Choisissez votre finition</legend>
               <label class="finish-option">
                 <input type="radio" name="finition-box3" value="doree" required>
                 <span class="finish-dot finish-gold"></span> Dorée
@@ -642,9 +642,9 @@
       <div class="voices-track" id="voicesTrack"></div>
 
       <div class="voices-ctrl">
-        <button type="button" class="vbtn" id="vPrev">Précédent</button>
+        <button type="button" class="vbtn" id="vPrev" data-edit="avis.precedent">Précédent</button>
         <div class="vbar"><span id="voicesBar"></span></div>
-        <button type="button" class="vbtn" id="vNext">Suivant</button>
+        <button type="button" class="vbtn" id="vNext" data-edit="avis.suivant">Suivant</button>
       </div>
     </section>
 
@@ -673,7 +673,7 @@
             rel="noopener">Instagram</a><i class="sep"></i>
           <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
             rel="noopener">TikTok</a><i class="sep"></i>
-          <a href="https://www.facebook.com/people/Izaaly-Collections/61576125283925/#" data-social="facebook" target="_blank" rel="noopener">Facebook</a><i
+          <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a><i
             class="sep"></i>
           <span data-text="social.handle">@izaaly.collections</span>
         </div>
@@ -682,7 +682,7 @@
             class="sep"></i>
           <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" tabindex="-1">TikTok</a><i
             class="sep"></i>
-          <a href="https://www.facebook.com/people/Izaaly-Collections/61576125283925/#" data-social="facebook" tabindex="-1">Facebook</a><i class="sep"></i>
+          <a href="https://pinterest.com/izaaly" data-social="pinterest" tabindex="-1">Pinterest</a><i class="sep"></i>
           <span data-text="social.handle">@izaaly</span><i class="sep"></i>
         </div>
       </div>
@@ -730,9 +730,9 @@
           aria-hidden="true">
 
         <p class="form-legal">
-          Les informations saisies servent uniquement à répondre à votre demande.
-          Pour en savoir plus, consultez notre
-          <a href="./confidentialite.html">politique de confidentialité</a>.
+          <span data-edit="form.legal.texte">Les informations saisies servent uniquement à répondre à votre demande.
+          Pour en savoir plus, consultez notre</span>
+          <a href="./confidentialite.html" data-edit="form.legal.lien">politique de confidentialité</a>.
         </p>
 
         <button type="submit" class="btn reveal" data-text="form.bouton">Envoyer ma demande</button>
@@ -749,12 +749,12 @@
         rel="noopener">Instagram</a>
       <a href="https://www.tiktok.com/@izaaly.collections" data-social="tiktok" target="_blank"
         rel="noopener">TikTok</a>
-      <a href="https://www.facebook.com/people/Izaaly-Collections/61576125283925/#" data-social="facebook" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://pinterest.com/izaaly" data-social="pinterest" target="_blank" rel="noopener">Pinterest</a>
     </nav>
     <nav class="footer-legal" aria-label="Informations légales">
-      <a href="./mentions-legales.html">Mentions légales</a>
-      <a href="./cgv.html">CGV</a>
-      <a href="./confidentialite.html">Confidentialité</a>
+      <a href="./mentions-legales.html" data-edit="footer.mentions">Mentions légales</a>
+      <a href="./cgv.html" data-edit="footer.cgv">CGV</a>
+      <a href="./confidentialite.html" data-edit="footer.confidentialite">Confidentialité</a>
     </nav>
     <p class="serif" data-edit="footer.copyright">© 2026 Izaaly. Tous droits réservés.</p>
   </footer>

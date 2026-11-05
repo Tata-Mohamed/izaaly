@@ -357,7 +357,7 @@
   /* ---------- Menu « Réglages » : regroupe les écrans existants ---------- */
   const css3 = document.createElement('style');
   css3.textContent =
-    '#adm-modal .menu button{display:block;width:100%;text-align:left;margin:.5rem 0;padding:1rem}' +
+    '#adm-modal .adm-menu button{display:block;width:100%;text-align:left;margin:.5rem 0;padding:1rem}' +
     '#adm-modal .piece{border:1px solid #ccc;padding:1rem;margin:.8rem 0;display:grid;gap:.2rem}' +
     '#adm-modal .piece.hid{background:#f4f4f4}' +
     '#adm-modal .piece .top{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}' +
@@ -375,7 +375,7 @@
     const items = [['adm-ship', 'Livraison et paiement en ligne'], ['adm-prix', 'Prix et durées des box'], ['adm-social', 'Réseaux sociaux'], ['adm-form', 'Formulaire de contact'],
                    ['adm-avis', 'Avis des clientes'], ['adm-hist', 'Historique (revenir à une ancienne version)']];
     const m = modal('Réglages', el('small', { textContent: 'Que voulez-vous modifier ?' }),
-      el('div', { className: 'menu' }, ...items.map(([id, label]) =>
+      el('div', { className: 'adm-menu' }, ...items.map(([id, label]) =>
         el('button', { textContent: label, onclick: () => { m.remove(); document.getElementById(id).click(); } }))),
       el('div', { className: 'row' }, el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   };

@@ -10,6 +10,7 @@
 
   const pending = {};        // { clé: valeur } à enregistrer
   const textKeys = new Set(); // clés de texte modifiées
+  const lastEdited = {};     // { clé: dernier élément modifié } (lu à l'enregistrement)
   let busy = false;
 
   /* ---------- API ---------- */
@@ -118,7 +119,12 @@
   document.querySelectorAll('[data-edit]').forEach(el => {
     el.contentEditable = 'true';
     el.spellcheck = true;
-    el.addEventListener('input', () => { textKeys.add(el.dataset.edit); });
+    el.addEventListener('input', () => {
+      const k = el.dataset.edit;
+      textKeys.add(k); lastEdited[k] = el;
+      // même texte affiché à plusieurs endroits (menu ordinateur et téléphone) : on les garde identiques
+      document.querySelectorAll('[data-edit]').forEach(o => { if (o !== el && o.dataset.edit === k) C.setText(o, read(el)); });
+    });
     el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
     el.addEventListener('paste', e => {
       e.preventDefault();
@@ -148,7 +154,7 @@
   document.getElementById('adm-save').onclick = async () => {
     if (busy) return;
     textKeys.forEach(k => {
-      const el = document.querySelector('[data-edit="' + k + '"]');
+      const el = lastEdited[k] || document.querySelector('[data-edit="' + k + '"]');
       if (el) pending[k] = read(el);
     });
     const rows = Object.keys(pending).map(key => ({ key, value: pending[key] }));

@@ -86,7 +86,7 @@
   bar.innerHTML = '<span id="adm-msg">Cliquez sur un texte pour le modifier, sur une image pour la remplacer, puis sur « Enregistrer ».</span>' +
     '<button id="adm-pieces">Mes pièces</button><button id="adm-orders">Mes commandes</button><button id="adm-reglages">Réglages</button><button id="adm-save">Enregistrer</button><button id="adm-cancel">Annuler</button>' +
     '<a href="index.html">Voir le site</a><button id="adm-out">Déconnexion</button>' +
-    '<span id="adm-old" hidden><button id="adm-prix"></button><button id="adm-social"></button><button id="adm-form"></button><button id="adm-avis"></button><button id="adm-hist"></button></span>';
+    '<span id="adm-old" hidden><button id="adm-ship"></button><button id="adm-prix"></button><button id="adm-social"></button><button id="adm-form"></button><button id="adm-avis"></button><button id="adm-hist"></button></span>';
   const msg = () => document.getElementById('adm-msg');
   function say(t, bad) { msg().textContent = t; msg().style.color = bad ? '#ff8a8a' : ''; }
 
@@ -372,7 +372,7 @@
 
   document.getElementById('adm-reglages').onclick = () => {
     if (needSave()) return;
-    const items = [['adm-prix', 'Prix et durées des box'], ['adm-social', 'Réseaux sociaux'], ['adm-form', 'Formulaire de contact'],
+    const items = [['adm-ship', 'Livraison et paiement en ligne'], ['adm-prix', 'Prix et durées des box'], ['adm-social', 'Réseaux sociaux'], ['adm-form', 'Formulaire de contact'],
                    ['adm-avis', 'Avis des clientes'], ['adm-hist', 'Historique (revenir à une ancienne version)']];
     const m = modal('Réglages', el('small', { textContent: 'Que voulez-vous modifier ?' }),
       el('div', { className: 'menu' }, ...items.map(([id, label]) =>
@@ -557,5 +557,58 @@
       orders = await r.json(); draw();
       if (orders.length >= 200) err.textContent = 'Les 200 commandes les plus récentes sont affichées.';
     } catch (e) { box.textContent = ''; err.textContent = 'Impossible de charger les commandes : ' + e.message; }
+  };
+  /* ---------- Livraison et paiement en ligne ---------- */
+  document.getElementById('adm-ship').onclick = () => {
+    if (needSave()) return;
+    const D = C.data;
+    const arr = k => (Array.isArray(D[k]) ? D[k] : []);
+    const opt = (k, id, label, delai, cents) => { const o = arr(k).find(x => x && x.id === id) || {}; return { label: o.label || label, delai: o.delai != null ? o.delai : delai, cents: o.montant != null ? o.montant : cents }; };
+    const O = {
+      dom: opt('shop.livraison', 'domicile', 'Livraison à domicile', '2 à 4 jours ouvrés', 590),
+      rel: opt('shop.livraison', 'relais', 'Livraison en point relais', '3 à 5 jours ouvrés', 390),
+      bdom: opt('shop.livraison_box', 'domicile', 'Livraison de la box', 'Expédition mensuelle', 0),
+      brel: opt('shop.livraison_box', 'relais', 'Livraison de la box en point relais', 'Expédition mensuelle', 0)
+    };
+    const eur = c => (c / 100).toFixed(2).replace('.', ',');
+    const f = {
+      domP: field('Prix de la livraison à domicile (€, 0 = offerte)', eur(O.dom.cents)), domD: field('Délai affiché', O.dom.delai),
+      relP: field('Prix de la livraison en point relais (€, 0 = offerte)', eur(O.rel.cents)), relD: field('Délai affiché', O.rel.delai),
+      bdomP: field('Livraison d\u2019une box à domicile (€, 0 = offerte)', eur(O.bdom.cents)), bdomD: field('Délai affiché', O.bdom.delai),
+      brelP: field('Livraison d\u2019une box en point relais (€, 0 = offerte)', eur(O.brel.cents)), brelD: field('Délai affiché', O.brel.delai)
+    };
+    const relaisOn = el('input', { type: 'checkbox', checked: !!(D['shop.relais'] && D['shop.relais'].actif === true) });
+    const payOn = el('input', { type: 'checkbox', checked: D['shop.paiement'] === 'on' });
+    const err = el('p', { style: 'color:#b00020;min-height:1.2em' });
+    const cents = (input, label) => {
+      const v = parseFloat(String(input.value).replace(',', '.').trim());
+      if (!isFinite(v) || v < 0 || v > 100) throw new Error(label + ' : saisissez un prix entre 0 et 100 €.');
+      return Math.round(v * 100);
+    };
+    const m = modal('Livraison et paiement en ligne',
+      el('small', { textContent: 'Les frais s\u2019ajoutent au paiement. Mettez 0 pour offrir la livraison.' }),
+      el('h4', { textContent: 'Pièces', style: 'margin-top:1rem' }), f.domP[1], f.domD[1], f.relP[1], f.relD[1],
+      el('label', { className: 'chk' }, relaisOn, 'Proposer la livraison en point relais'),
+      el('h4', { textContent: 'Box', style: 'margin-top:1rem' }), f.bdomP[1], f.bdomD[1], f.brelP[1], f.brelD[1],
+      el('h4', { textContent: 'Paiement en ligne', style: 'margin-top:1rem' }),
+      el('label', { className: 'chk' }, payOn, 'Paiement en ligne ouvert (décochez pour fermer la boutique)'),
+      err, el('div', { className: 'row' },
+        el('button', { className: 'pri', textContent: 'Enregistrer', onclick: async () => {
+          try {
+            const dom = cents(f.domP[0], 'Livraison à domicile'), rel = cents(f.relP[0], 'Point relais');
+            const bdom = cents(f.bdomP[0], 'Box à domicile'), brel = cents(f.brelP[0], 'Box en point relais');
+            if (payOn.checked && D['shop.paiement'] !== 'on' &&
+                !confirm('Ouvrir le paiement en ligne ? Les visiteurs pourront alors commander et payer.')) return;
+            const clean = x => String(x).replace(/\s+/g, ' ').trim().slice(0, 80);
+            await put([
+              { key: 'shop.livraison', value: [{ id: 'domicile', label: O.dom.label, delai: clean(f.domD[0].value), montant: dom }, { id: 'relais', label: O.rel.label, delai: clean(f.relD[0].value), montant: rel }] },
+              { key: 'shop.livraison_box', value: [{ id: 'domicile', label: O.bdom.label, delai: clean(f.bdomD[0].value), montant: bdom }, { id: 'relais', label: O.brel.label, delai: clean(f.brelD[0].value), montant: brel }] },
+              { key: 'shop.relais', value: { actif: relaisOn.checked } },
+              { key: 'shop.paiement', value: payOn.checked ? 'on' : 'off' }
+            ]);
+            m.remove(); say('Livraison et paiement enregistrés.');
+          } catch (e) { err.textContent = e.message.startsWith('refusé') ? 'Erreur : ' + e.message : e.message; }
+        } }),
+        el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   };
 })();

@@ -83,9 +83,10 @@
   /* ---------- Barre d'outils ---------- */
   const bar = document.createElement('div');
   bar.id = 'adm-bar';
-  bar.innerHTML = '<span id="adm-msg">Cliquez sur un texte pour le modifier, sur une image pour la remplacer.</span>' +
-    '<button id="adm-prix">Tarifs et durées</button><button id="adm-social">Réseaux</button><button id="adm-form">Formulaire</button><button id="adm-avis">Avis</button><button id="adm-hist">Historique</button><button id="adm-save">Enregistrer</button><button id="adm-cancel">Annuler les modifications</button>' +
-    '<a href="index.html">Voir le site</a><button id="adm-out">Déconnexion</button>';
+  bar.innerHTML = '<span id="adm-msg">Cliquez sur un texte pour le modifier, sur une image pour la remplacer, puis sur « Enregistrer ».</span>' +
+    '<button id="adm-pieces">Mes pièces</button><button id="adm-reglages">Réglages</button><button id="adm-save">Enregistrer</button><button id="adm-cancel">Annuler</button>' +
+    '<a href="index.html">Voir le site</a><button id="adm-out">Déconnexion</button>' +
+    '<span id="adm-old" hidden><button id="adm-prix"></button><button id="adm-social"></button><button id="adm-form"></button><button id="adm-avis"></button><button id="adm-hist"></button></span>';
   const msg = () => document.getElementById('adm-msg');
   function say(t, bad) { msg().textContent = t; msg().style.color = bad ? '#ff8a8a' : ''; }
 
@@ -352,5 +353,140 @@
           } })));
       });
     } catch (e) { out.textContent = 'Erreur : ' + e.message; }
+  };
+  /* ---------- Menu « Réglages » : regroupe les écrans existants ---------- */
+  const css3 = document.createElement('style');
+  css3.textContent =
+    '#adm-modal .menu button{display:block;width:100%;text-align:left;margin:.5rem 0;padding:1rem}' +
+    '#adm-modal .piece{border:1px solid #ccc;padding:1rem;margin:.8rem 0;display:grid;gap:.2rem}' +
+    '#adm-modal .piece.hid{background:#f4f4f4}' +
+    '#adm-modal .piece .top{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}' +
+    '#adm-modal .piece img{width:96px;height:96px;object-fit:cover;margin:0}' +
+    '#adm-modal .piece .noimg{width:96px;height:96px;display:grid;place-items:center;background:#eee;font-size:.75rem;color:#666;text-align:center}' +
+    '#adm-modal .piece .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}' +
+    '#adm-modal .chk{display:flex!important;align-items:center;gap:.6rem;grid-template-columns:none}' +
+    '#adm-modal .chk input{width:auto}' +
+    '#adm-modal .tag{font-size:.75rem;background:#b8893b;color:#fff;padding:.2rem .5rem;display:inline-block}' +
+    '#adm-modal button:disabled{opacity:.4;cursor:default}';
+  document.head.appendChild(css3);
+
+  document.getElementById('adm-reglages').onclick = () => {
+    if (needSave()) return;
+    const items = [['adm-prix', 'Prix et durées des box'], ['adm-social', 'Réseaux sociaux'], ['adm-form', 'Formulaire de contact'],
+                   ['adm-avis', 'Avis des clientes'], ['adm-hist', 'Historique (revenir à une ancienne version)']];
+    const m = modal('Réglages', el('small', { textContent: 'Que voulez-vous modifier ?' }),
+      el('div', { className: 'menu' }, ...items.map(([id, label]) =>
+        el('button', { textContent: label, onclick: () => { m.remove(); document.getElementById(id).click(); } }))),
+      el('div', { className: 'row' }, el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
+  };
+
+  /* ---------- Mes pièces : ajouter, modifier, masquer, supprimer les pièces uniques ---------- */
+  document.getElementById('adm-pieces').onclick = async () => {
+    if (needSave()) return;
+    const FIELDS = 'id,nom,description,prix_cents,image,stock,actif,position,reserve_jusqua';
+    const list = [], removed = [];
+    const err = el('p', { style: 'color:#b00020;min-height:1.2em' });
+    const box = el('div', { textContent: 'Chargement\u2026' });
+    const fmt = c => (c / 100).toFixed(2).replace('.', ',');
+    const m = modal('Mes pièces',
+      el('small', { textContent: 'Chaque pièce est unique. « Visible » la montre sur le site ; décochez-la pour la masquer sans la supprimer. Quand une pièce est vendue, son stock passe à 0.' }),
+      box, err, el('div', { className: 'row', id: 'adm-pieces-actions' }));
+    const actions = m.querySelector('#adm-pieces-actions');
+    const failText = async r => { let t = ''; try { t = (await r.text()).slice(0, 160); } catch (e) {} return 'refusé (' + r.status + ')' + (t ? ' : ' + t : ''); };
+
+    try {
+      const r = await call('/rest/v1/products?select=' + FIELDS + '&order=position.asc,nom.asc');
+      if (!r.ok) throw new Error(await failText(r));
+      (await r.json()).forEach(p => {
+        const cur = { nom: p.nom || '', description: p.description || '', prix: fmt(p.prix_cents || 0), image: p.image || '', stock: String(p.stock == null ? 0 : p.stock), actif: !!p.actif };
+        list.push(Object.assign({ id: p.id, isNew: false, reserved: !!(p.reserve_jusqua && new Date(p.reserve_jusqua) > new Date()), orig: Object.assign({}, cur, { position: p.position }) }, cur, { position: p.position }));
+      });
+    } catch (e) { box.textContent = ''; err.textContent = 'Impossible de charger les pièces : ' + e.message; }
+
+    const draw = () => {
+      box.textContent = '';
+      if (!list.length && !err.textContent) box.appendChild(el('p', { textContent: 'Aucune pièce pour le moment. Cliquez sur « Ajouter une pièce ».' }));
+      list.forEach((p, i) => {
+        const bind = (label, key, tag, extra) => {
+          const x = el(tag || 'input', Object.assign({ value: p[key] }, extra || {}));
+          x.addEventListener('input', () => { p[key] = x.value; });
+          return el('label', {}, label, x);
+        };
+        const chk = el('input', { type: 'checkbox', checked: p.actif, disabled: p.reserved, onchange: ev => { p.actif = ev.target.checked; card.classList.toggle('hid', !p.actif); } });
+        const stock = bind('Stock (1 = pièce unique, 0 = vendue)', 'stock', 'input', { inputMode: 'numeric', disabled: p.reserved });
+        const card = el('div', { className: 'piece' + (p.actif ? '' : ' hid') },
+          el('div', { className: 'top' },
+            p.image ? el('img', { src: p.image, alt: '' }) : el('div', { className: 'noimg', textContent: 'Pas de photo' }),
+            el('button', { type: 'button', textContent: p.image ? 'Changer la photo' : 'Ajouter une photo', onclick: () => {
+              const f = el('input', { type: 'file', accept: 'image/*', onchange: async () => {
+                if (!f.files[0]) return;
+                try { err.textContent = 'Envoi de la photo\u2026'; p.image = await upload(f.files[0], 'piece-' + p.id.slice(0, 8)); err.textContent = ''; draw(); }
+                catch (e) { err.textContent = 'Erreur photo : ' + e.message; }
+              } }); f.click(); } }),
+            p.reserved ? el('span', { className: 'tag', textContent: 'Paiement en cours' }) : ''),
+          bind('Nom de la pièce', 'nom'),
+          bind('Description (facultatif)', 'description', 'textarea', { rows: 2 }),
+          el('div', { className: 'grid2' }, bind('Prix (€)', 'prix', 'input', { inputMode: 'decimal' }), stock),
+          el('label', { className: 'chk' }, chk, 'Visible sur le site'),
+          el('div', { className: 'row' },
+            el('button', { type: 'button', textContent: 'Monter', disabled: i === 0, onclick: () => { [list[i - 1], list[i]] = [list[i], list[i - 1]]; draw(); } }),
+            el('button', { type: 'button', textContent: 'Descendre', disabled: i === list.length - 1, onclick: () => { [list[i + 1], list[i]] = [list[i], list[i + 1]]; draw(); } }),
+            el('button', { type: 'button', textContent: 'Supprimer', disabled: p.reserved, onclick: () => {
+              if (!confirm('Supprimer définitivement « ' + (p.nom || 'cette pièce') + ' » ? (Pour seulement la cacher, décochez « Visible ».)')) return;
+              if (!p.isNew) removed.push(p.id);
+              list.splice(i, 1); draw(); } })));
+        box.appendChild(card);
+      });
+    };
+    draw();
+
+    actions.append(
+      el('button', { textContent: 'Ajouter une pièce', onclick: () => {
+        list.push({ id: crypto.randomUUID(), isNew: true, reserved: false, orig: {}, nom: '', description: '', prix: '', image: '', stock: '1', actif: false, position: list.length + 1 });
+        err.textContent = ''; draw(); box.lastElementChild && box.lastElementChild.scrollIntoView({ block: 'center' }); } }),
+      el('button', { className: 'pri', textContent: 'Enregistrer les pièces', onclick: async function () {
+        const btn = this;
+        // 1) Vérifications
+        const cleaned = [];
+        for (const [i, p] of list.entries()) {
+          const nom = p.nom.trim(), prix = parseFloat(String(p.prix).replace(',', '.')), stock = parseInt(p.stock, 10);
+          const label = 'Pièce n° ' + (i + 1) + (nom ? ' (' + nom + ')' : '');
+          if (!nom) { err.textContent = label + ' : indiquez un nom.'; return; }
+          if (!isFinite(prix) || prix < 0.5) { err.textContent = label + ' : le prix doit être d\u2019au moins 0,50 €.'; return; }
+          if (!Number.isInteger(stock) || stock < 0 || stock > 99) { err.textContent = label + ' : le stock doit être un nombre entier (0 à 99).'; return; }
+          if (p.actif && !p.image) { err.textContent = label + ' : ajoutez une photo avant de la rendre visible.'; return; }
+          cleaned.push({ p, cur: { nom, description: p.description.trim(), prix_cents: Math.round(prix * 100), image: p.image || '', stock, actif: !!p.actif, position: i + 1 } });
+        }
+        // 2) Enregistrement : seulement ce qui a changé (une vente en cours n'est jamais écrasée)
+        btn.disabled = true; err.textContent = 'Enregistrement\u2026';
+        const json = { 'Content-Type': 'application/json', Prefer: 'return=minimal' };
+        try {
+          while (removed.length) {
+            const r = await call('/rest/v1/products?id=eq.' + removed[0], { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
+            if (!r.ok) throw new Error(await failText(r));
+            removed.shift();   // déjà supprimée : ne sera pas renvoyée en cas de nouvel essai
+          }
+          const snap = (p, cur) => { p.orig = { nom: cur.nom, description: cur.description, prix: fmt(cur.prix_cents), image: cur.image, stock: String(cur.stock), actif: cur.actif, position: cur.position }; };
+          for (const { p, cur } of cleaned) {
+            if (p.isNew) {
+              const r = await call('/rest/v1/products', { method: 'POST', headers: json, body: JSON.stringify([Object.assign({ id: p.id }, cur)]) });
+              if (!r.ok) throw new Error(await failText(r));
+              p.isNew = false; snap(p, cur);   // créée : un nouvel essai ne la recrée pas
+              continue;
+            }
+            const o = { nom: p.orig.nom, description: p.orig.description, prix_cents: Math.round(parseFloat(String(p.orig.prix).replace(',', '.')) * 100), image: p.orig.image, stock: parseInt(p.orig.stock, 10), actif: p.orig.actif, position: p.orig.position };
+            const diff = {};
+            Object.keys(cur).forEach(k => { if (cur[k] !== o[k]) diff[k] = cur[k]; });
+            if (p.reserved) { delete diff.stock; delete diff.actif; }
+            if (!Object.keys(diff).length) continue;
+            const r = await call('/rest/v1/products?id=eq.' + p.id, { method: 'PATCH', headers: json, body: JSON.stringify(diff) });
+            if (!r.ok) throw new Error(await failText(r));
+            snap(p, Object.assign({}, cur, p.reserved ? { stock: parseInt(p.orig.stock, 10), actif: p.orig.actif } : {}));
+          }
+          say('Pièces enregistrées. Votre site est à jour.');
+          location.reload();
+        } catch (e) { err.textContent = 'Erreur : ' + e.message + ' Rouvrez « Mes pièces » pour voir l\u2019état réel avant de réessayer.'; btn.disabled = false; }
+      } }),
+      el('button', { textContent: 'Fermer', onclick: () => m.remove() }));
   };
 })();

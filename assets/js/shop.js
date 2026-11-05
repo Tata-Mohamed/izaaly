@@ -48,6 +48,7 @@
     const monthly = Math.round(base * (1 - remise / 100) * 100) / 100;
     return { nom, image, remise, monthlyCents: Math.round(monthly * 100), cents: Math.round(monthly * mois * 100) };
   }
+  const FIN = { doree: 'dorée', argentee: 'argentée' };   // finitions proposées pour les box
   const canMonthly = it => !!it && it.t === 'box' && it.f !== 1 && it.mois > 1;
   const isMonthly = it => canMonthly(it) && it.pay === 'mensuel';
 
@@ -57,10 +58,11 @@
       const b = boxInfo(it.f, it.mois); if (!b) return null;
       const rem = b.remise ? ' (\u2212' + money(b.remise) + '\u00a0%)' : '';
       const mens = isMonthly(it);
+      const fin = FIN[it.fin] ? ' \u00b7 finition ' + FIN[it.fin] : '';
       return { t: 'box', nom: 'Box ' + b.nom, image: b.image, key: 'box', mensuel: mens, cents: mens ? b.monthlyCents : b.cents,
-        detail: it.f === 1 ? 'Box unique, sans abonnement'
+        detail: (it.f === 1 ? 'Box unique, sans abonnement'
           : mens ? it.mois + ' mensualités de ' + eur(b.monthlyCents) + rem + ' \u00b7 débit automatique chaque mois'
-          : it.mois + ' mois' + rem + ' \u00b7 réglée en une fois' };
+          : it.mois + ' mois' + rem + ' \u00b7 réglée en une fois') + fin };
     }
     return { t: 'piece', nom: it.nom, detail: '', cents: it.prix_cents, image: it.image, key: it.id };
   }
@@ -81,9 +83,9 @@
     cart.push({ t: 'piece', id: p.id, nom: p.nom, prix_cents: p.prix_cents, image: p.image });
     save(); refresh(); say('Ajouté au panier');
   }
-  function addBox(f, mois) {
+  function addBox(f, mois, fin) {
     cart = cart.filter(x => x.t !== 'box');   // une seule box par commande : la nouvelle remplace l'ancienne
-    cart.push({ t: 'box', f, mois, pay: 'comptant' });
+    cart.push({ t: 'box', f, mois, pay: 'comptant', fin });
     save(); refresh();
   }
   function remove(m) {
@@ -175,21 +177,29 @@
   /* ---------- Boutons des box : « S'abonner » (data-box) + « Ajouter au panier » ---------- */
   function boxChoice(a) {
     const f = +a.dataset.box, on = $('.duration button[aria-pressed="true"]');
-    return { f, mois: f === 1 ? 0 : parseInt(on && on.textContent, 10) || 3 };
+    const r = document.querySelector('input[name="finition-box' + f + '"]:checked');
+    return { f, mois: f === 1 ? 0 : parseInt(on && on.textContent, 10) || 3, fin: r ? r.value : '' };
+  }
+  function askFinish(f) {   // la finition est obligatoire : on le dit et on montre où choisir
+    say('Choisissez la finition de votre box (dorée ou argentée).', true);
+    const fs = document.querySelector('input[name="finition-box' + f + '"]');
+    if (fs && fs.closest('fieldset')) fs.closest('fieldset').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
   $$('[data-box]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
       const c = boxChoice(a);
       if (!boxInfo(c.f, c.mois)) { say('Cette durée n\u2019est pas disponible.', true); return; }
-      addBox(c.f, c.mois);
+      if (!FIN[c.fin]) { askFinish(c.f); return; }
+      addBox(c.f, c.mois, c.fin);
       location.href = ORDER_URL;
     });
     const more = el('button', { type: 'button', className: 'box-add', textContent: 'Ajouter au panier' });
     more.onclick = () => {
       const c = boxChoice(a);
       if (!boxInfo(c.f, c.mois)) { say('Cette durée n\u2019est pas disponible.', true); return; }
-      addBox(c.f, c.mois); say('Box ajoutée au panier'); if (drawer) openCart();
+      if (!FIN[c.fin]) { askFinish(c.f); return; }
+      addBox(c.f, c.mois, c.fin); say('Box ajoutée au panier'); if (drawer) openCart();
     };
     a.insertAdjacentElement('afterend', more);
   });
@@ -347,12 +357,13 @@
       const msg = m => { $('#rc-msg').textContent = m; };
       if (ship === 'relais') { const r = relais(); if (!r.nom || !r.cp || !r.ville) { msg('Indiquez le point relais choisi (nom, code postal et ville).'); return; } }
       const b = cart.find(x => x.t === 'box'), label = this.textContent;
+      if (b && !FIN[b.fin]) { msg('Précisez la finition de votre box : retirez-la du panier, puis choisissez à nouveau « Dorée » ou « Argentée ».'); return; }
       this.disabled = true; this.textContent = 'Redirection\u2026'; msg('');
       try {
         const tk = IC && IC.session() ? await IC.token() : null;   // invité : aucun jeton
         const j = await post({
           type: 'cart', ids: cart.filter(x => x.t === 'piece').map(x => x.id),
-          box: b ? { formule: b.f, mois: b.mois, pay: isMonthly(b) ? 'mensuel' : 'comptant' } : null,
+          box: b ? { formule: b.f, mois: b.mois, pay: isMonthly(b) ? 'mensuel' : 'comptant', finition: b.fin } : null,
           method, livraison: { mode: ship, relais: ship === 'relais' ? relais() : null }
         }, tk);
         if (!j.url) throw new Error('Paiement indisponible.');

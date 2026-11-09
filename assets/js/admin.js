@@ -5,12 +5,11 @@
   if (!C) return;
   const SK = 'izaaly:session';
   let S = null;
-  try { S = JSON.parse(localStorage.getItem(SK)); } catch (e) {}
+  try { S = JSON.parse(localStorage.getItem(SK)); } catch (e) { }
   if (!S || !S.refresh_token) { location.href = 'admin/admin.html'; return; }
 
   const pending = {};        // { clé: valeur } à enregistrer
   const textKeys = new Set(); // clés de texte modifiées
-  const lastEdited = {};     // { clé: dernier élément modifié } (lu à l'enregistrement)
   let busy = false;
 
   /* ---------- API ---------- */
@@ -23,8 +22,10 @@
     });
     if (!r.ok) { localStorage.removeItem(SK); location.href = 'admin/admin.html'; throw new Error('session expirée'); }
     const j = await r.json();
-    S = { access_token: j.access_token, refresh_token: j.refresh_token,
-          expires_at: j.expires_at || Math.floor(Date.now() / 1000) + j.expires_in };
+    S = {
+      access_token: j.access_token, refresh_token: j.refresh_token,
+      expires_at: j.expires_at || Math.floor(Date.now() / 1000) + j.expires_in
+    };
     localStorage.setItem(SK, JSON.stringify(S));
     return S.access_token;
   }
@@ -119,12 +120,7 @@
   document.querySelectorAll('[data-edit]').forEach(el => {
     el.contentEditable = 'true';
     el.spellcheck = true;
-    el.addEventListener('input', () => {
-      const k = el.dataset.edit;
-      textKeys.add(k); lastEdited[k] = el;
-      // même texte affiché à plusieurs endroits (menu ordinateur et téléphone) : on les garde identiques
-      document.querySelectorAll('[data-edit]').forEach(o => { if (o !== el && o.dataset.edit === k) C.setText(o, read(el)); });
-    });
+    el.addEventListener('input', () => { textKeys.add(el.dataset.edit); });
     el.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
     el.addEventListener('paste', e => {
       e.preventDefault();
@@ -154,7 +150,7 @@
   document.getElementById('adm-save').onclick = async () => {
     if (busy) return;
     textKeys.forEach(k => {
-      const el = lastEdited[k] || document.querySelector('[data-edit="' + k + '"]');
+      const el = document.querySelector('[data-edit="' + k + '"]');
       if (el) pending[k] = read(el);
     });
     const rows = Object.keys(pending).map(key => ({ key, value: pending[key] }));
@@ -168,7 +164,7 @@
       });
       if (!r.ok) throw new Error('refusé (' + r.status + ')');
       Object.assign(C.data, pending);
-      try { localStorage.setItem('izaaly:content:v1', JSON.stringify(C.data)); } catch (e) {}
+      try { localStorage.setItem('izaaly:content:v1', JSON.stringify(C.data)); } catch (e) { }
       Object.keys(pending).forEach(k => delete pending[k]);
       textKeys.clear();
       say('Modifications enregistrées. Votre site est à jour.');
@@ -213,7 +209,7 @@
     });
     if (!r.ok) throw new Error('refusé (' + r.status + ')');
     rows.forEach(x => { C.data[x.key] = x.value; });
-    try { localStorage.setItem('izaaly:content:v1', JSON.stringify(C.data)); } catch (e) {}
+    try { localStorage.setItem('izaaly:content:v1', JSON.stringify(C.data)); } catch (e) { }
   }
   async function upload(file, name) {
     const blob = await resize(file, 1600);
@@ -230,29 +226,31 @@
     if (needSave()) return;
     const D = C.data;
     const f = [['box1.prix', 'La Découverte (€, box unique)', 19.99], ['box2.prix', 'L\u2019Essentiel (€ / mois)', 29.99],
-      ['box3.prix', 'L\u2019Exception (€ / mois)', 39.99]].map(([k, l, d]) => [k, ...field(l, D[k] != null ? D[k] : d)]);
+    ['box3.prix', 'L\u2019Exception (€ / mois)', 39.99]].map(([k, l, d]) => [k, ...field(l, D[k] != null ? D[k] : d)]);
     const fac = field('Texte de facturation ({total} et {mois} sont remplacés automatiquement)', D['box.facture'] || 'Facturé {total} € pour {mois} mois');
     const cur = Array.isArray(D['box.durees']) && D['box.durees'].length ? D['box.durees']
       : [{ mois: 3, remise: 0 }, { mois: 6, remise: D['box.remise6'] != null ? D['box.remise6'] : 5 }, { mois: 12, remise: D['box.remise12'] != null ? D['box.remise12'] : 10 }];
     const dur = [0, 1, 2, 3].map(n => [field('Durée ' + (n + 1) + ' (en mois, laisser vide pour ne pas l\u2019utiliser)', (cur[n] || {}).mois),
-                                       field('Remise de la durée ' + (n + 1) + ' (%)', (cur[n] || {}).remise)]);
+    field('Remise de la durée ' + (n + 1) + ' (%)', (cur[n] || {}).remise)]);
     const err = el('p', { style: 'color:#b00020;min-height:1.2em' });
     const m = modal('Tarifs et durées des box', ...f.map(x => x[2]), fac[1], ...dur.flatMap(d => [d[0][1], d[1][1]]), err, el('div', { className: 'row' },
-      el('button', { className: 'pri', textContent: 'Enregistrer', onclick: async () => {
-        const rows = f.map(([k, i]) => ({ key: k, value: i.value.replace(',', '.').trim() }));
-        if (rows.some(r => !isFinite(parseFloat(r.value)) || parseFloat(r.value) < 0)) { err.textContent = 'Saisissez des prix valides.'; return; }
-        const list = [];
-        for (const [mo, re] of dur) {
-          if (!mo[0].value.trim()) continue;
-          const mois = parseInt(mo[0].value, 10), remise = parseFloat(re[0].value.replace(',', '.') || '0');
-          if (!(mois >= 1 && mois <= 36) || !(remise >= 0 && remise <= 90)) { err.textContent = 'Durée : 1 à 36 mois. Remise : 0 à 90 %.'; return; }
-          list.push({ mois, remise });
+      el('button', {
+        className: 'pri', textContent: 'Enregistrer', onclick: async () => {
+          const rows = f.map(([k, i]) => ({ key: k, value: i.value.replace(',', '.').trim() }));
+          if (rows.some(r => !isFinite(parseFloat(r.value)) || parseFloat(r.value) < 0)) { err.textContent = 'Saisissez des prix valides.'; return; }
+          const list = [];
+          for (const [mo, re] of dur) {
+            if (!mo[0].value.trim()) continue;
+            const mois = parseInt(mo[0].value, 10), remise = parseFloat(re[0].value.replace(',', '.') || '0');
+            if (!(mois >= 1 && mois <= 36) || !(remise >= 0 && remise <= 90)) { err.textContent = 'Durée : 1 à 36 mois. Remise : 0 à 90 %.'; return; }
+            list.push({ mois, remise });
+          }
+          if (!list.length) { err.textContent = 'Gardez au moins une durée.'; return; }
+          rows.push({ key: 'box.durees', value: list }, { key: 'box.facture', value: fac[0].value.trim() || 'Facturé {total} € pour {mois} mois' });
+          try { await put(rows); window.IzaalyBox && window.IzaalyBox.render(); m.remove(); say('Tarifs et durées enregistrés.'); }
+          catch (e) { err.textContent = 'Erreur : ' + e.message; }
         }
-        if (!list.length) { err.textContent = 'Gardez au moins une durée.'; return; }
-        rows.push({ key: 'box.durees', value: list }, { key: 'box.facture', value: fac[0].value.trim() || 'Facturé {total} € pour {mois} mois' });
-        try { await put(rows); window.IzaalyBox && window.IzaalyBox.render(); m.remove(); say('Tarifs et durées enregistrés.'); }
-        catch (e) { err.textContent = 'Erreur : ' + e.message; }
-      } }),
+      }),
       el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   };
 
@@ -267,30 +265,32 @@
     });
     const err = el('p', { style: 'color:#b00020;min-height:1.2em' });
     const m = modal(title, el('small', { textContent: note }), ...f.map(x => x[2]), err, el('div', { className: 'row' },
-      el('button', { className: 'pri', textContent: 'Enregistrer', onclick: async () => {
-        const rows = f.map(([k, x]) => ({ key: k, value: x.value.trim() }));
-        const bad = validate && validate(rows);
-        if (bad) { err.textContent = bad; return; }
-        try { await put(rows); C.apply(C.data); m.remove(); say('Enregistré.'); }
-        catch (e) { err.textContent = 'Erreur : ' + e.message; }
-      } }),
+      el('button', {
+        className: 'pri', textContent: 'Enregistrer', onclick: async () => {
+          const rows = f.map(([k, x]) => ({ key: k, value: x.value.trim() }));
+          const bad = validate && validate(rows);
+          if (bad) { err.textContent = bad; return; }
+          try { await put(rows); C.apply(C.data); m.remove(); say('Enregistré.'); }
+          catch (e) { err.textContent = 'Erreur : ' + e.message; }
+        }
+      }),
       el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   }
 
   document.getElementById('adm-social').onclick = () => settings('Réseaux sociaux',
     'Collez l\u2019adresse complète (https://…). Laissez vide pour masquer un réseau sur tout le site.',
     [['social.instagram', 'Instagram', 'https://instagram.com/izaaly'], ['social.tiktok', 'TikTok', 'https://tiktok.com/@izaaly'],
-     ['social.pinterest', 'Pinterest', 'https://pinterest.com/izaaly'], ['social.handle', 'Pseudo affiché (bandeau défilant)', '@izaaly']],
+    ['social.pinterest', 'Pinterest', 'https://pinterest.com/izaaly'], ['social.handle', 'Pseudo affiché (bandeau défilant)', '@izaaly']],
     rows => rows.some(r => r.key !== 'social.handle' && r.value && !/^https?:\/\/\S+$/i.test(r.value)) ? 'Chaque lien doit commencer par https://' : '');
 
   document.getElementById('adm-form').onclick = () => settings('Formulaire de contact',
     'Libellés et messages du formulaire. Une option par ligne dans la liste des types de projet.',
     [['form.nom', 'Champ nom', 'Nom'], ['form.email', 'Champ e-mail', 'E-mail'], ['form.type', 'Liste de types', 'Type de projet'],
-     ['form.types', 'Options de la liste (une par ligne)', 'Création sur mesure\nCréation personnalisée\nBox mensuelle\nAutre demande', 'area'],
-     ['form.msg', 'Champ message', 'Votre projet'], ['form.bouton', 'Bouton d\u2019envoi', 'Envoyer ma demande'],
-     ['form.envoi', 'Bouton pendant l\u2019envoi', 'Envoi en cours'],
-     ['form.ok', 'Message de succès', 'Merci, votre demande est bien envoyée. Nous revenons vers vous très vite.'],
-     ['form.err', 'Message d\u2019erreur', 'L\u2019envoi a échoué. Réessayez ou écrivez-nous directement par e-mail.']],
+    ['form.types', 'Options de la liste (une par ligne)', 'Création sur mesure\nCréation personnalisée\nBox mensuelle\nAutre demande', 'area'],
+    ['form.msg', 'Champ message', 'Votre projet'], ['form.bouton', 'Bouton d\u2019envoi', 'Envoyer ma demande'],
+    ['form.envoi', 'Bouton pendant l\u2019envoi', 'Envoi en cours'],
+    ['form.ok', 'Message de succès', 'Merci, votre demande est bien envoyée. Nous revenons vers vous très vite.'],
+    ['form.err', 'Message d\u2019erreur', 'L\u2019envoi a échoué. Réessayez ou écrivez-nous directement par e-mail.']],
     rows => rows.some(r => !r.value) ? 'Aucun champ ne doit rester vide.' : '');
 
   // Avis clientes
@@ -299,8 +299,9 @@
     const src = C.data['avis.liste'];
     const list = Array.isArray(src) ? src.map(a => Object.assign({}, a))
       : [...document.querySelectorAll('#voicesTrack .vcard:not([aria-hidden])')].map(c => ({
-          nom: c.querySelector('.vname').firstChild.textContent, projet: c.querySelector('.vname span').textContent,
-          texte: c.querySelector('blockquote').textContent, image: (c.querySelector('img') || {}).src || '' }));
+        nom: c.querySelector('.vname').firstChild.textContent, projet: c.querySelector('.vname span').textContent,
+        texte: c.querySelector('blockquote').textContent, image: (c.querySelector('img') || {}).src || ''
+      }));
     const err = el('p', { style: 'color:#b00020;min-height:1.2em' });
     const box = el('div');
     const draw = () => {
@@ -311,12 +312,17 @@
           a.image ? el('img', { src: a.image, alt: '' }) : el('small', { textContent: 'Pas de photo' }),
           bind('Prénom', 'nom'), bind('Projet (ex. Bague gravée)', 'projet'), bind('Avis', 'texte', 'textarea'), bind('Note sur 5 (facultatif)', 'note'),
           el('div', { className: 'row' },
-            el('button', { textContent: 'Photo', onclick: () => {
-              const f = el('input', { type: 'file', accept: 'image/*', onchange: async () => {
-                if (!f.files[0]) return;
-                try { err.textContent = 'Envoi…'; a.image = await upload(f.files[0], 'avis-' + i); err.textContent = ''; draw(); }
-                catch (e) { err.textContent = 'Erreur : ' + e.message; }
-              } }); f.click(); } }),
+            el('button', {
+              textContent: 'Photo', onclick: () => {
+                const f = el('input', {
+                  type: 'file', accept: 'image/*', onchange: async () => {
+                    if (!f.files[0]) return;
+                    try { err.textContent = 'Envoi…'; a.image = await upload(f.files[0], 'avis-' + i); err.textContent = ''; draw(); }
+                    catch (e) { err.textContent = 'Erreur : ' + e.message; }
+                  }
+                }); f.click();
+              }
+            }),
             el('button', { textContent: 'Monter', onclick: () => { if (i) { [list[i - 1], list[i]] = [list[i], list[i - 1]]; draw(); } } }),
             el('button', { textContent: 'Supprimer', onclick: () => { if (confirm('Supprimer cet avis ?')) { list.splice(i, 1); draw(); } } }))));
       });
@@ -325,10 +331,12 @@
     const m = modal('Avis clientes', el('small', { textContent: 'Un nombre pair d\u2019avis donne le meilleur rendu du carrousel. Utilisez uniquement de vrais avis, avec l\u2019accord des clientes pour leurs photos.' }),
       box, err, el('div', { className: 'row' },
         el('button', { textContent: 'Ajouter un avis', onclick: () => { list.push({ nom: '', projet: '', texte: '', image: '', note: '' }); draw(); } }),
-        el('button', { className: 'pri', textContent: 'Enregistrer', onclick: async () => {
-          try { await put([{ key: 'avis.liste', value: list.filter(a => (a.texte || '').trim()).map(a => { const n = parseFloat(String(a.note || '').replace(',', '.')); return Object.assign({}, a, { note: n >= 1 && n <= 5 ? n : '' }); }) }]); location.reload(); }
-          catch (e) { err.textContent = 'Erreur : ' + e.message; }
-        } }),
+        el('button', {
+          className: 'pri', textContent: 'Enregistrer', onclick: async () => {
+            try { await put([{ key: 'avis.liste', value: list.filter(a => (a.texte || '').trim()).map(a => { const n = parseFloat(String(a.note || '').replace(',', '.')); return Object.assign({}, a, { note: n >= 1 && n <= 5 ? n : '' }); }) }]); location.reload(); }
+            catch (e) { err.textContent = 'Erreur : ' + e.message; }
+          }
+        }),
         el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   };
 
@@ -353,10 +361,12 @@
           el('strong', { textContent: h.key }),
           el('small', { textContent: dk(h) ? ' \u00b7 ' + new Date(h[dk(h)]).toLocaleString('fr-FR') : '' }),
           isImg ? el('img', { src: val, alt: '' }) : el('p', { textContent: label.length > 160 ? label.slice(0, 160) + '\u2026' : label }),
-          el('button', { textContent: 'Restaurer cette version', onclick: async () => {
-            if (!confirm('Remettre cette version sur le site ?')) return;
-            try { await put([{ key: h.key, value: val }]); location.reload(); } catch (e) { alert('Erreur : ' + e.message); }
-          } })));
+          el('button', {
+            textContent: 'Restaurer cette version', onclick: async () => {
+              if (!confirm('Remettre cette version sur le site ?')) return;
+              try { await put([{ key: h.key, value: val }]); location.reload(); } catch (e) { alert('Erreur : ' + e.message); }
+            }
+          })));
       });
     } catch (e) { out.textContent = 'Erreur : ' + e.message; }
   };
@@ -379,7 +389,7 @@
   document.getElementById('adm-reglages').onclick = () => {
     if (needSave()) return;
     const items = [['adm-ship', 'Livraison et paiement en ligne'], ['adm-prix', 'Prix et durées des box'], ['adm-social', 'Réseaux sociaux'], ['adm-form', 'Formulaire de contact'],
-                   ['adm-avis', 'Avis des clientes'], ['adm-hist', 'Historique (revenir à une ancienne version)']];
+    ['adm-avis', 'Avis des clientes'], ['adm-hist', 'Historique (revenir à une ancienne version)']];
     const m = modal('Réglages', el('small', { textContent: 'Que voulez-vous modifier ?' }),
       el('div', { className: 'adm-menu' }, ...items.map(([id, label]) =>
         el('button', { textContent: label, onclick: () => { m.remove(); document.getElementById(id).click(); } }))),
@@ -398,7 +408,7 @@
       el('small', { textContent: 'Chaque pièce est unique. « Visible » la montre sur le site ; décochez-la pour la masquer sans la supprimer. Quand une pièce est vendue, son stock passe à 0.' }),
       box, err, el('div', { className: 'row', id: 'adm-pieces-actions' }));
     const actions = m.querySelector('#adm-pieces-actions');
-    const failText = async r => { let t = ''; try { t = (await r.text()).slice(0, 160); } catch (e) {} return 'refusé (' + r.status + ')' + (t ? ' : ' + t : ''); };
+    const failText = async r => { let t = ''; try { t = (await r.text()).slice(0, 160); } catch (e) { } return 'refusé (' + r.status + ')' + (t ? ' : ' + t : ''); };
 
     try {
       const r = await call('/rest/v1/products?select=' + FIELDS + '&order=position.asc,nom.asc');
@@ -423,12 +433,17 @@
         const card = el('div', { className: 'piece' + (p.actif ? '' : ' hid') },
           el('div', { className: 'top' },
             p.image ? el('img', { src: p.image, alt: '' }) : el('div', { className: 'noimg', textContent: 'Pas de photo' }),
-            el('button', { type: 'button', textContent: p.image ? 'Changer la photo' : 'Ajouter une photo', onclick: () => {
-              const f = el('input', { type: 'file', accept: 'image/*', onchange: async () => {
-                if (!f.files[0]) return;
-                try { err.textContent = 'Envoi de la photo\u2026'; p.image = await upload(f.files[0], 'piece-' + p.id.slice(0, 8)); err.textContent = ''; draw(); }
-                catch (e) { err.textContent = 'Erreur photo : ' + e.message; }
-              } }); f.click(); } }),
+            el('button', {
+              type: 'button', textContent: p.image ? 'Changer la photo' : 'Ajouter une photo', onclick: () => {
+                const f = el('input', {
+                  type: 'file', accept: 'image/*', onchange: async () => {
+                    if (!f.files[0]) return;
+                    try { err.textContent = 'Envoi de la photo\u2026'; p.image = await upload(f.files[0], 'piece-' + p.id.slice(0, 8)); err.textContent = ''; draw(); }
+                    catch (e) { err.textContent = 'Erreur photo : ' + e.message; }
+                  }
+                }); f.click();
+              }
+            }),
             p.reserved ? el('span', { className: 'tag', textContent: 'Paiement en cours' }) : ''),
           bind('Nom de la pièce', 'nom'),
           bind('Description (facultatif)', 'description', 'textarea', { rows: 2 }),
@@ -437,62 +452,70 @@
           el('div', { className: 'row' },
             el('button', { type: 'button', textContent: 'Monter', disabled: i === 0, onclick: () => { [list[i - 1], list[i]] = [list[i], list[i - 1]]; draw(); } }),
             el('button', { type: 'button', textContent: 'Descendre', disabled: i === list.length - 1, onclick: () => { [list[i + 1], list[i]] = [list[i], list[i + 1]]; draw(); } }),
-            el('button', { type: 'button', textContent: 'Supprimer', disabled: p.reserved, onclick: () => {
-              if (!confirm('Supprimer définitivement « ' + (p.nom || 'cette pièce') + ' » ? (Pour seulement la cacher, décochez « Visible ».)')) return;
-              if (!p.isNew) removed.push(p.id);
-              list.splice(i, 1); draw(); } })));
+            el('button', {
+              type: 'button', textContent: 'Supprimer', disabled: p.reserved, onclick: () => {
+                if (!confirm('Supprimer définitivement « ' + (p.nom || 'cette pièce') + ' » ? (Pour seulement la cacher, décochez « Visible ».)')) return;
+                if (!p.isNew) removed.push(p.id);
+                list.splice(i, 1); draw();
+              }
+            })));
         box.appendChild(card);
       });
     };
     draw();
 
     actions.append(
-      el('button', { textContent: 'Ajouter une pièce', onclick: () => {
-        list.push({ id: crypto.randomUUID(), isNew: true, reserved: false, orig: {}, nom: '', description: '', prix: '', image: '', stock: '1', actif: false, position: list.length + 1 });
-        err.textContent = ''; draw(); box.lastElementChild && box.lastElementChild.scrollIntoView({ block: 'center' }); } }),
-      el('button', { className: 'pri', textContent: 'Enregistrer les pièces', onclick: async function () {
-        const btn = this;
-        // 1) Vérifications
-        const cleaned = [];
-        for (const [i, p] of list.entries()) {
-          const nom = p.nom.trim(), prix = parseFloat(String(p.prix).replace(',', '.')), stock = parseInt(p.stock, 10);
-          const label = 'Pièce n° ' + (i + 1) + (nom ? ' (' + nom + ')' : '');
-          if (!nom) { err.textContent = label + ' : indiquez un nom.'; return; }
-          if (!isFinite(prix) || prix < 0.5) { err.textContent = label + ' : le prix doit être d\u2019au moins 0,50 €.'; return; }
-          if (!Number.isInteger(stock) || stock < 0 || stock > 99) { err.textContent = label + ' : le stock doit être un nombre entier (0 à 99).'; return; }
-          if (p.actif && !p.image) { err.textContent = label + ' : ajoutez une photo avant de la rendre visible.'; return; }
-          cleaned.push({ p, cur: { nom, description: p.description.trim(), prix_cents: Math.round(prix * 100), image: p.image || '', stock, actif: !!p.actif, position: i + 1 } });
+      el('button', {
+        textContent: 'Ajouter une pièce', onclick: () => {
+          list.push({ id: crypto.randomUUID(), isNew: true, reserved: false, orig: {}, nom: '', description: '', prix: '', image: '', stock: '1', actif: false, position: list.length + 1 });
+          err.textContent = ''; draw(); box.lastElementChild && box.lastElementChild.scrollIntoView({ block: 'center' });
         }
-        // 2) Enregistrement : seulement ce qui a changé (une vente en cours n'est jamais écrasée)
-        btn.disabled = true; err.textContent = 'Enregistrement\u2026';
-        const json = { 'Content-Type': 'application/json', Prefer: 'return=minimal' };
-        try {
-          while (removed.length) {
-            const r = await call('/rest/v1/products?id=eq.' + removed[0], { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
-            if (!r.ok) throw new Error(await failText(r));
-            removed.shift();   // déjà supprimée : ne sera pas renvoyée en cas de nouvel essai
+      }),
+      el('button', {
+        className: 'pri', textContent: 'Enregistrer les pièces', onclick: async function () {
+          const btn = this;
+          // 1) Vérifications
+          const cleaned = [];
+          for (const [i, p] of list.entries()) {
+            const nom = p.nom.trim(), prix = parseFloat(String(p.prix).replace(',', '.')), stock = parseInt(p.stock, 10);
+            const label = 'Pièce n° ' + (i + 1) + (nom ? ' (' + nom + ')' : '');
+            if (!nom) { err.textContent = label + ' : indiquez un nom.'; return; }
+            if (!isFinite(prix) || prix < 0.5) { err.textContent = label + ' : le prix doit être d\u2019au moins 0,50 €.'; return; }
+            if (!Number.isInteger(stock) || stock < 0 || stock > 99) { err.textContent = label + ' : le stock doit être un nombre entier (0 à 99).'; return; }
+            if (p.actif && !p.image) { err.textContent = label + ' : ajoutez une photo avant de la rendre visible.'; return; }
+            cleaned.push({ p, cur: { nom, description: p.description.trim(), prix_cents: Math.round(prix * 100), image: p.image || '', stock, actif: !!p.actif, position: i + 1 } });
           }
-          const snap = (p, cur) => { p.orig = { nom: cur.nom, description: cur.description, prix: fmt(cur.prix_cents), image: cur.image, stock: String(cur.stock), actif: cur.actif, position: cur.position }; };
-          for (const { p, cur } of cleaned) {
-            if (p.isNew) {
-              const r = await call('/rest/v1/products', { method: 'POST', headers: json, body: JSON.stringify([Object.assign({ id: p.id }, cur)]) });
+          // 2) Enregistrement : seulement ce qui a changé (une vente en cours n'est jamais écrasée)
+          btn.disabled = true; err.textContent = 'Enregistrement\u2026';
+          const json = { 'Content-Type': 'application/json', Prefer: 'return=minimal' };
+          try {
+            while (removed.length) {
+              const r = await call('/rest/v1/products?id=eq.' + removed[0], { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
               if (!r.ok) throw new Error(await failText(r));
-              p.isNew = false; snap(p, cur);   // créée : un nouvel essai ne la recrée pas
-              continue;
+              removed.shift();   // déjà supprimée : ne sera pas renvoyée en cas de nouvel essai
             }
-            const o = { nom: p.orig.nom, description: p.orig.description, prix_cents: Math.round(parseFloat(String(p.orig.prix).replace(',', '.')) * 100), image: p.orig.image, stock: parseInt(p.orig.stock, 10), actif: p.orig.actif, position: p.orig.position };
-            const diff = {};
-            Object.keys(cur).forEach(k => { if (cur[k] !== o[k]) diff[k] = cur[k]; });
-            if (p.reserved) { delete diff.stock; delete diff.actif; }
-            if (!Object.keys(diff).length) continue;
-            const r = await call('/rest/v1/products?id=eq.' + p.id, { method: 'PATCH', headers: json, body: JSON.stringify(diff) });
-            if (!r.ok) throw new Error(await failText(r));
-            snap(p, Object.assign({}, cur, p.reserved ? { stock: parseInt(p.orig.stock, 10), actif: p.orig.actif } : {}));
-          }
-          say('Pièces enregistrées. Votre site est à jour.');
-          location.reload();
-        } catch (e) { err.textContent = 'Erreur : ' + e.message + ' Rouvrez « Mes pièces » pour voir l\u2019état réel avant de réessayer.'; btn.disabled = false; }
-      } }),
+            const snap = (p, cur) => { p.orig = { nom: cur.nom, description: cur.description, prix: fmt(cur.prix_cents), image: cur.image, stock: String(cur.stock), actif: cur.actif, position: cur.position }; };
+            for (const { p, cur } of cleaned) {
+              if (p.isNew) {
+                const r = await call('/rest/v1/products', { method: 'POST', headers: json, body: JSON.stringify([Object.assign({ id: p.id }, cur)]) });
+                if (!r.ok) throw new Error(await failText(r));
+                p.isNew = false; snap(p, cur);   // créée : un nouvel essai ne la recrée pas
+                continue;
+              }
+              const o = { nom: p.orig.nom, description: p.orig.description, prix_cents: Math.round(parseFloat(String(p.orig.prix).replace(',', '.')) * 100), image: p.orig.image, stock: parseInt(p.orig.stock, 10), actif: p.orig.actif, position: p.orig.position };
+              const diff = {};
+              Object.keys(cur).forEach(k => { if (cur[k] !== o[k]) diff[k] = cur[k]; });
+              if (p.reserved) { delete diff.stock; delete diff.actif; }
+              if (!Object.keys(diff).length) continue;
+              const r = await call('/rest/v1/products?id=eq.' + p.id, { method: 'PATCH', headers: json, body: JSON.stringify(diff) });
+              if (!r.ok) throw new Error(await failText(r));
+              snap(p, Object.assign({}, cur, p.reserved ? { stock: parseInt(p.orig.stock, 10), actif: p.orig.actif } : {}));
+            }
+            say('Pièces enregistrées. Votre site est à jour.');
+            location.reload();
+          } catch (e) { err.textContent = 'Erreur : ' + e.message + ' Rouvrez « Mes pièces » pour voir l\u2019état réel avant de réessayer.'; btn.disabled = false; }
+        }
+      }),
       el('button', { textContent: 'Fermer', onclick: () => m.remove() }));
   };
   /* ---------- Mes commandes : lecture seule, pour préparer les colis ---------- */
@@ -508,14 +531,57 @@
     const clean = v => (v == null ? '' : String(v)).trim();
     let orders = [];
 
+
     const info = o => {
-      const L = o.livraison || {}, A = (L.adresse && L.adresse.address) || null, F = L.facturation || null;
+      const L = o.livraison || {};
+      const A = (L.adresse && L.adresse.address) || null;
+      const F = L.facturation || null;
+
       const nom = clean(L.nom) || clean(L.adresse && L.adresse.name);
-      const relais = L.mode === 'relais' ? clean(L.relais).split('|').map(x => x.trim()).filter(Boolean) : null;
+
+      // Gestion du point relais : nouveau format objet
+      // et ancien format texte.
+      let relais = null;
+
+      if (L.mode === 'relais' && L.relais) {
+        if (typeof L.relais === 'object') {
+          const R = L.relais;
+
+          relais = [
+            clean(R.nom),
+            clean(R.adresse),
+            (clean(R.cp) + ' ' + clean(R.ville)).trim(),
+            R.id ? 'Identifiant relais : ' + clean(R.id) : '',
+            R.transporteur ? 'Transporteur : ' + clean(R.transporteur) : ''
+          ].filter(Boolean);
+
+        } else {
+          relais = clean(L.relais)
+            .split('|')
+            .map(x => x.trim())
+            .filter(Boolean);
+        }
+      }
+
       const adr = A || F;
-      const lignesAdr = relais ? relais : (adr ? [clean(adr.line1), clean(adr.line2), (clean(adr.postal_code) + ' ' + clean(adr.city)).trim(), clean(adr.country)].filter(Boolean) : []);
-      return { nom, tel: clean(L.telephone), relais: !!relais, lignesAdr };
+
+      const lignesAdr = relais || (adr
+        ? [
+          clean(adr.line1),
+          clean(adr.line2),
+          (clean(adr.postal_code) + ' ' + clean(adr.city)).trim(),
+          clean(adr.country)
+        ].filter(Boolean)
+        : []);
+
+      return {
+        nom,
+        tel: clean(L.telephone),
+        relais: !!relais,
+        lignesAdr
+      };
     };
+
     const kind = o => (o.type === 'box' ? 'Box' : o.type === 'mixte' ? 'Pièces + box' : 'Pièces');
     const haystack = o => { const i = info(o); return [o.email, i.nom, i.tel, i.lignesAdr.join(' '), (o.lignes || []).map(l => l.nom).join(' '), kind(o)].join(' ').toLowerCase(); };
 
@@ -551,7 +617,7 @@
       });
     };
     [['toutes', 'Toutes'], ['domicile', 'À domicile'], ['relais', 'Point relais'], ['box', 'Box']].forEach(([v, label]) => {
-      const b = el('button', { textContent: label, onclick: () => { filt.v = v; [...chips.children].forEach(c => c.classList.toggle('pri', c === b)); draw(); } });
+      const b = el('button', { textContent: label, onclick: () => { filt.v = v;[...chips.children].forEach(c => c.classList.toggle('pri', c === b)); draw(); } });
       if (v === 'toutes') b.classList.add('pri');
       chips.appendChild(b);
     });
@@ -559,7 +625,7 @@
 
     try {
       const r = await call('/rest/v1/orders?select=id,created_at,type,email,montant_cents,statut,livraison,lignes&order=created_at.desc&limit=200');
-      if (!r.ok) { let t = ''; try { t = (await r.text()).slice(0, 160); } catch (e) {} throw new Error('refusé (' + r.status + ')' + (t ? ' : ' + t : '')); }
+      if (!r.ok) { let t = ''; try { t = (await r.text()).slice(0, 160); } catch (e) { } throw new Error('refusé (' + r.status + ')' + (t ? ' : ' + t : '')); }
       orders = await r.json(); draw();
       if (orders.length >= 200) err.textContent = 'Les 200 commandes les plus récentes sont affichées.';
     } catch (e) { box.textContent = ''; err.textContent = 'Impossible de charger les commandes : ' + e.message; }
@@ -599,22 +665,24 @@
       el('h4', { textContent: 'Paiement en ligne', style: 'margin-top:1rem' }),
       el('label', { className: 'chk' }, payOn, 'Paiement en ligne ouvert (décochez pour fermer la boutique)'),
       err, el('div', { className: 'row' },
-        el('button', { className: 'pri', textContent: 'Enregistrer', onclick: async () => {
-          try {
-            const dom = cents(f.domP[0], 'Livraison à domicile'), rel = cents(f.relP[0], 'Point relais');
-            const bdom = cents(f.bdomP[0], 'Box à domicile'), brel = cents(f.brelP[0], 'Box en point relais');
-            if (payOn.checked && D['shop.paiement'] !== 'on' &&
+        el('button', {
+          className: 'pri', textContent: 'Enregistrer', onclick: async () => {
+            try {
+              const dom = cents(f.domP[0], 'Livraison à domicile'), rel = cents(f.relP[0], 'Point relais');
+              const bdom = cents(f.bdomP[0], 'Box à domicile'), brel = cents(f.brelP[0], 'Box en point relais');
+              if (payOn.checked && D['shop.paiement'] !== 'on' &&
                 !confirm('Ouvrir le paiement en ligne ? Les visiteurs pourront alors commander et payer.')) return;
-            const clean = x => String(x).replace(/\s+/g, ' ').trim().slice(0, 80);
-            await put([
-              { key: 'shop.livraison', value: [{ id: 'domicile', label: O.dom.label, delai: clean(f.domD[0].value), montant: dom }, { id: 'relais', label: O.rel.label, delai: clean(f.relD[0].value), montant: rel }] },
-              { key: 'shop.livraison_box', value: [{ id: 'domicile', label: O.bdom.label, delai: clean(f.bdomD[0].value), montant: bdom }, { id: 'relais', label: O.brel.label, delai: clean(f.brelD[0].value), montant: brel }] },
-              { key: 'shop.relais', value: { actif: relaisOn.checked } },
-              { key: 'shop.paiement', value: payOn.checked ? 'on' : 'off' }
-            ]);
-            m.remove(); say('Livraison et paiement enregistrés.');
-          } catch (e) { err.textContent = e.message.startsWith('refusé') ? 'Erreur : ' + e.message : e.message; }
-        } }),
+              const clean = x => String(x).replace(/\s+/g, ' ').trim().slice(0, 80);
+              await put([
+                { key: 'shop.livraison', value: [{ id: 'domicile', label: O.dom.label, delai: clean(f.domD[0].value), montant: dom }, { id: 'relais', label: O.rel.label, delai: clean(f.relD[0].value), montant: rel }] },
+                { key: 'shop.livraison_box', value: [{ id: 'domicile', label: O.bdom.label, delai: clean(f.bdomD[0].value), montant: bdom }, { id: 'relais', label: O.brel.label, delai: clean(f.brelD[0].value), montant: brel }] },
+                { key: 'shop.relais', value: { actif: relaisOn.checked } },
+                { key: 'shop.paiement', value: payOn.checked ? 'on' : 'off' }
+              ]);
+              m.remove(); say('Livraison et paiement enregistrés.');
+            } catch (e) { err.textContent = e.message.startsWith('refusé') ? 'Erreur : ' + e.message : e.message; }
+          }
+        }),
         el('button', { textContent: 'Fermer', onclick: () => m.remove() })));
   };
 })();

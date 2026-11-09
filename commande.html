@@ -58,14 +58,17 @@
 
           <div id="rc-acct-choice" class="opt-group">
             <label class="opt"><input type="radio" name="rc-who" id="rc-who-invite" value="invite" checked>
-              <span><strong>Continuer en invité</strong><small>Aucun compte à créer. Votre e-mail vous est demandé sur la page de paiement.</small></span></label>
+              <span><strong>Continuer en invité</strong><small>Aucun compte à créer. Votre e-mail vous est demandé sur
+                  la page de paiement.</small></span></label>
             <label class="opt"><input type="radio" name="rc-who" id="rc-who-compte" value="compte">
-              <span><strong>Me connecter ou créer un compte</strong><small>Retrouvez vos commandes à tout moment et gagnez du temps la prochaine fois.</small></span></label>
+              <span><strong>Me connecter ou créer un compte</strong><small>Retrouvez vos commandes à tout moment et
+                  gagnez du temps la prochaine fois.</small></span></label>
           </div>
 
           <div id="rc-acct-form" hidden>
             <label class="of">E-mail <input type="email" id="rc-a-email" autocomplete="email"></label>
-            <label class="of">Mot de passe (8 caractères minimum) <input type="password" id="rc-a-pw" autocomplete="current-password"></label>
+            <label class="of">Mot de passe (8 caractères minimum) <input type="password" id="rc-a-pw"
+                autocomplete="current-password"></label>
             <div class="of-actions">
               <button type="button" class="ob" id="rc-a-login">Se connecter</button>
               <button type="button" class="ob ghost" id="rc-a-signup">Créer mon compte</button>
@@ -88,16 +91,21 @@
             <label class="opt"><input type="radio" name="rc-ship" id="rc-sh-rel" value="relais">
               <span><strong>En point relais</strong><small id="rc-sh-rel-fee"></small></span></label>
           </div>
-          <p class="order-note">Pour une livraison à domicile, l'adresse vous est demandée sur la page de paiement sécurisée.</p>
+          <p class="order-note">Pour une livraison à domicile, l'adresse vous est demandée sur la page de paiement
+            sécurisée.</p>
 
           <div id="rc-relais" hidden>
-            <p class="order-note">Indiquez le point relais où vous souhaitez récupérer votre colis.</p>
-            <label class="of">Nom du point relais <input type="text" id="rl-nom" maxlength="80"></label>
-            <label class="of">Adresse <input type="text" id="rl-adr" maxlength="100"></label>
-            <div class="of-row">
-              <label class="of">Code postal <input type="text" id="rl-cp" maxlength="10" inputmode="numeric"></label>
-              <label class="of">Ville <input type="text" id="rl-ville" maxlength="60"></label>
-            </div>
+            <p class="order-note">
+              Choisissez votre Point Relais® ou Locker sur la carte.
+            </p>
+
+            <div id="Zone_Widget"></div>
+
+            <input type="hidden" id="Retour_Widget" value="">
+
+            <p id="rc-relais-selection" class="order-note" aria-live="polite">
+              Aucun point relais sélectionné.
+            </p>
           </div>
         </section>
 
@@ -136,10 +144,12 @@
               <a href="./cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>.</span>
           </label>
 
-          <p class="order-note">En cliquant sur «&nbsp;Payer&nbsp;», vous passez une commande avec obligation de paiement.</p>
+          <p class="order-note">En cliquant sur «&nbsp;Payer&nbsp;», vous passez une commande avec obligation de
+            paiement.</p>
           <p class="shop-err" id="rc-msg" role="alert"></p>
           <button type="button" class="shop-pay" id="rc-pay" disabled>Payer</button>
-          <p class="order-secure">Paiement sécurisé par Stripe. Vos coordonnées bancaires ne sont jamais conservées sur ce site.</p>
+          <p class="order-secure">Paiement sécurisé par Stripe. Vos coordonnées bancaires ne sont jamais conservées sur
+            ce site.</p>
         </section>
 
       </div>
@@ -164,6 +174,13 @@
     </nav>
     <p class="serif">© 2026 Izaaly. Tous droits réservés.</p>
   </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+  <script
+    src="https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
 
   <script src="./assets/js/content.js"></script>
   <script src="./assets/js/compte.js"></script>

@@ -277,7 +277,7 @@
 
     window.jQuery('#Zone_Widget').MR_ParcelShopPicker({
       Target: '#Retour_Widget',
-      Brand: 'BDTEST  ',
+      Brand: 'CC244ZGA',
       Country: 'FR',
       Theme: 'mondialrelay',
       Responsive: true,

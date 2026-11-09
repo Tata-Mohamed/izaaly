@@ -264,6 +264,43 @@
     };
   };
 
+  let mondialRelayWidgetReady = false;
+
+  const initMondialRelayWidget = () => {
+    if (mondialRelayWidgetReady) return;
+
+    if (!window.jQuery ||
+      !window.jQuery.fn.MR_ParcelShopPicker) {
+      console.error('Widget Mondial Relay indisponible');
+      return;
+    }
+
+    window.jQuery('#Zone_Widget').MR_ParcelShopPicker({
+      Target: '#Retour_Widget',
+      Brand: 'BDTEST  ',
+      Country: 'FR',
+      Theme: 'mondialrelay',
+      Responsive: true,
+      ShowResultsOnMap: true,
+
+      OnParcelShopSelected: function (data) {
+        selectedRelay = data;
+
+        const selection = document.getElementById('rc-relais-selection');
+
+        if (selection) {
+          selection.textContent =
+            'Point relais choisi : ' +
+            (data.Nom || '') + ' — ' +
+            (data.CP || '') + ' ' +
+            (data.Ville || '');
+        }
+      }
+    });
+
+    mondialRelayWidgetReady = true;
+  };
+
   function renderAcct() {
     const sec = $('#rc-acct'); if (!sec) return;
     sec.hidden = !IC || D()['shop.comptes'] !== 'on';   // comptes clients : s'active avec la clé shop.comptes = "on"
@@ -302,6 +339,10 @@
     $('#rc-sh-rel').disabled = !relaisOn();
     $('#rc-sh-dom').checked = ship === 'domicile'; $('#rc-sh-rel').checked = ship === 'relais';
     $('#rc-relais').hidden = ship !== 'relais';
+
+    if (ship === 'relais') {
+      initMondialRelayWidget();
+    }
 
     // Totaux : ce qui est débité aujourd'hui, puis les mensualités éventuelles
     const sub = ls.reduce((s, m) => s + m.cents, 0);

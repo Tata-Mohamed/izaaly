@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IZAALY — Ouverture du site</title>
+<meta name="description" content="Bijoux personnalisés et sur mesure, façonnés à la main. Ouverture le mercredi 11 novembre 2026 à 18h30.">
+
+<!-- Police de secours (proche de Glacial Indifference) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Glacial Indifference : place les fichiers dans /fonts/ (voir explications) */
+  @font-face {
+    font-family: "Glacial Indifference";
+    src: url("fonts/GlacialIndifference-Regular.woff2") format("woff2"),
+         url("fonts/GlacialIndifference-Regular.otf") format("opentype");
+    font-weight: 400; font-display: swap;
+  }
+  @font-face {
+    font-family: "Glacial Indifference";
+    src: url("fonts/GlacialIndifference-Bold.woff2") format("woff2"),
+         url("fonts/GlacialIndifference-Bold.otf") format("opentype");
+    font-weight: 700; font-display: swap;
+  }
+
+  :root {
+    --noir: #000;
+    --blanc: #fff;
+    --gris: rgba(255,255,255,.62);
+    --trait: rgba(255,255,255,.22);
+    --police: "Glacial Indifference", "Jost", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    background: var(--noir);
+    color: var(--blanc);
+    font-family: var(--police);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    min-height: 100vh;
+    background: var(--noir);
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .contenu {
+    width: 42%;
+    padding: 4rem clamp(2rem, 4.5vw, 5rem);
+    text-align: center;
+  }
+
+  .logo {
+    font-size: clamp(2.2rem, 3.6vw, 3.6rem);
+    font-weight: 400;
+    letter-spacing: .55em;
+    margin-right: -.55em; /* recentre malgré l'espacement */
+  }
+
+  .accroche {
+    margin-top: 1.2rem;
+    font-size: .8rem;
+    letter-spacing: .38em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  .compteur {
+    margin: 3rem 0 2.2rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--trait);
+    border-bottom: 1px solid var(--trait);
+  }
+  .bloc { padding: 1.6rem .4rem 1.3rem; }
+  .bloc + .bloc { border-left: 1px solid var(--trait); }
+  .nombre {
+    display: block;
+    font-size: clamp(2rem, 3.4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .unite {
+    display: block;
+    margin-top: .8rem;
+    font-size: .68rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  .phrase { font-size: 1.05rem; letter-spacing: .04em; }
+  .date {
+    margin-top: .5rem;
+    font-size: .8rem;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  .note {
+    margin: 2.6rem auto 0;
+    max-width: 30em;
+    font-size: .95rem;
+    line-height: 1.7;
+    color: var(--gris);
+  }
+
+  .agenda {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 2.2rem;
+    background: transparent;
+    color: var(--blanc);
+    border: 1px solid var(--blanc);
+    font-family: var(--police);
+    font-size: .72rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .3s, color .3s;
+  }
+  .agenda:hover, .agenda:focus-visible { background: var(--blanc); color: var(--noir); outline: none; }
+
+  .signature {
+    margin-top: 3rem;
+    font-size: .72rem;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--gris);
+  }
+
+  /* Tablette / mobile : texte en haut, photos en dessous */
+  @media (max-width: 900px) {
+    .page { flex-direction: column; background: var(--noir); }
+    .contenu { width: 100%; padding: 3.5rem 1.5rem 2.5rem; }
+    .nombre { font-size: clamp(1.8rem, 9vw, 2.8rem); }
+    .unite { letter-spacing: .18em; font-size: .6rem; }
+  }
+
+  /* ===== Pas de scroll : tout s'adapte à la hauteur de l'écran ===== */
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  .page { height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+
+  .contenu { padding: 2vh clamp(2rem, 4.5vw, 5rem); }
+  .logo { font-size: clamp(1.6rem, min(3.6vw, 6vh), 3.6rem); }
+  .accroche { margin-top: 1.6vh; font-size: clamp(.62rem, 1.5vh, .8rem); }
+  .compteur { margin: 4vh 0 3vh; }
+  .bloc { padding: 2.4vh .4rem 2vh; }
+  .nombre { font-size: clamp(1.6rem, min(3.4vw, 6vh), 3.4rem); }
+  .unite { margin-top: 1vh; font-size: clamp(.55rem, 1.3vh, .68rem); }
+  .phrase { font-size: clamp(.85rem, 2vh, 1.05rem); }
+  .date { margin-top: .8vh; font-size: clamp(.62rem, 1.5vh, .8rem); }
+  .note { margin-top: 3.5vh; font-size: clamp(.78rem, 1.9vh, .95rem); line-height: 1.55; }
+  .agenda { margin-top: 3vh; padding: 1.6vh 2.2rem; font-size: clamp(.6rem, 1.4vh, .72rem); }
+  .signature { margin-top: 3.5vh; font-size: clamp(.58rem, 1.4vh, .72rem); line-height: 1.6; }
+
+  @media (max-width: 900px) {
+    .page { flex-direction: column; align-items: stretch; }
+    .contenu { flex: 0 0 auto; padding: 3vh 1.2rem 1.5vh; }
+    .logo { letter-spacing: .4em; margin-right: -.4em; }
+    .compteur { margin: 2.5vh 0 2vh; }
+    .bloc { padding: 1.8vh .2rem 1.5vh; }
+    .nombre { font-size: clamp(1.5rem, min(9vw, 5.5vh), 2.8rem); }
+    .unite { letter-spacing: .16em; }
+    .note { margin-top: 2vh; }
+    .agenda { margin-top: 2vh; }
+    .signature { margin-top: 2vh; letter-spacing: .14em; }
+  }
+
+  /* ===== Photos + logo animé dans le trou noir ===== */
+  .contenu { position: relative; z-index: 2; }
+  .visuel { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+  .scene {            /* équivalent de background-size: cover, ancré à droite */
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: max(100vw, 177.78vh); width: max(100vw, 177.78dvh);
+    aspect-ratio: 16 / 9;
+  }
+  .fond { display: block; width: 100%; height: 100%; }
+  .logo-anime {       /* centré sur le trou noir de l'image (1472 ; 515 sur 1920×1080) */
+    position: absolute; left: 76.67%; top: 47.7%; width: 21%;
+    transform: translate(-50%, -50%);
+  }
+  .logo-anime svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  /* Animation du logo (reprise de votre projet) */
+  .bespoke-art circle, .bespoke-art path { fill: none; stroke: #fff; stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .bespoke-art.in circle, .bespoke-art.in path { animation: draw 2.6s cubic-bezier(.4,0,.2,1) forwards; }
+  .bespoke-art.in circle:nth-child(2) { animation-delay: .3s; }
+  .bespoke-art.in circle:nth-child(3) { animation-delay: .6s; }
+  .bespoke-art circle.dots { stroke-width: 3; stroke-linecap: round; stroke-dasharray: .5 14; stroke-dashoffset: 0; opacity: .7;
+    transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
+  .bespoke-art.in circle.dots { animation: spin 80s linear infinite; }
+  .bespoke-art path.logo-mark { fill: #fff; fill-opacity: 0; stroke: #fff; stroke-width: 25; stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .bespoke-art.in path.logo-mark { animation: draw 3.2s .6s cubic-bezier(.4,0,.2,1) forwards, fillin 1.4s 2.6s ease forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fillin { to { fill-opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .bespoke-art circle, .bespoke-art path { stroke-dashoffset: 0; }
+    .bespoke-art path.logo-mark { fill-opacity: 1; }
+    .bespoke-art circle.dots { animation: none; }
+  }
+
+  @media (max-width: 900px) {
+    .visuel { position: relative; inset: auto; flex: 1 1 0; min-height: 0; }
+    .scene { top: auto; bottom: 0; transform: none; width: 172vw; }
+  }
+
+  /* ===== Version téléphone : photo plein écran + logo animé + texte blanc ===== */
+  .logo-mobile { display: none; }
+  @media (max-width: 900px) {
+    .page {
+      background: #000 url("./assets/img/fond-mobile.jpg") center / cover no-repeat;
+      flex-direction: column; justify-content: center; align-items: stretch;
+    }
+    .visuel { display: none; }
+    .logo-mobile {
+      display: block; position: relative; z-index: 2; flex: 0 0 auto;
+      width: min(46vw, 24vh); margin: 2vh auto 0;
+    }
+    .logo-mobile svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .contenu { padding: 1.5vh 1.2rem 3vh; }
+    .contenu, .contenu * { color: #fff; }
+    .contenu { text-shadow: 0 1px 14px rgba(0,0,0,.55); }
+    .accroche, .unite, .date, .note, .signature { color: rgba(255,255,255,.85); }
+    .compteur, .bloc + .bloc { border-color: rgba(255,255,255,.35); }
+    .agenda { border-color: #fff; }
+    .agenda:hover, .agenda:focus-visible { background: #fff; color: #000; text-shadow: none; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="logo-mobile bespoke-art" aria-hidden="true">
+<svg viewBox="0 0 400 400" role="img" aria-label="Logo IZAALY">
+            <circle cx="200" cy="200" r="190" pathLength="1" />
+            <circle cx="200" cy="200" r="150" pathLength="1" />
+            <g transform="translate(200 200) scale(0.0342 -0.0342) translate(-5340 -5632)">
+              <path class="logo-mark" pathLength="1"
+                d="M5517 8084 c106 -51 157 -175 121 -296 -15 -51 -77 -121 -131 -147 -94 -45 -229 -16 -295 65 -32 38 -62 116 -62 159 0 45 31 123 66 163 77 90 185 110 301 56z m296 -815 c5 -9 7 -28 3 -42 -5 -22 -18 -29 -104 -56 -108 -33 -172 -73 -199 -123 -17 -31 -18 -96 -21 -1071 l-2 -1038 22 6 c80 22 174 81 248 155 134 134 181 216 495 865 173 360 306 541 475 650 167 108 391 145 501 83 70 -39 89 -146 36 -196 -38 -36 -96 -53 -211 -62 -173 -14 -284 -56 -386 -147 -144 -127 -221 -252 -400 -648 -45 -99 -99 -213 -120 -253 l-38 -73 117 -117 c65 -64 145 -155 178 -202 155 -216 290 -519 388 -870 147 -525 263 -739 456 -841 50 -27 63 -38 61 -54 -9 -52 -72 -85 -162 -85 -105 0 -185 50 -255 160 -75 118 -125 247 -231 600 -99 328 -155 491 -167 487 -15 -5 -82 -162 -160 -377 -88 -239 -122 -319 -167 -388 -45 -71 -89 -107 -152 -123 -39 -11 -52 -10 -90 4 -38 15 -68 47 -68 71 0 2 25 16 55 30 116 57 204 193 299 461 70 196 113 300 167 402 27 50 49 97 49 104 0 20 -99 210 -154 294 -53 82 -186 245 -227 279 -22 19 -23 19 -46 -10 -158 -191 -286 -284 -452 -330 l-61 -17 0 -651 c0 -445 4 -664 11 -691 20 -72 89 -117 242 -160 61 -18 83 -41 73 -80 -3 -12 -16 -25 -28 -29 -41 -11 -778 -7 -799 4 -20 11 -26 54 -11 78 5 7 41 21 81 32 128 36 197 81 220 143 7 19 11 246 11 691 l0 663 -82 31 c-46 17 -112 50 -148 74 -80 51 -192 163 -249 247 l-43 63 -31 -28 c-67 -60 -171 -172 -225 -244 -62 -81 -199 -311 -209 -348 -4 -17 13 -61 55 -150 34 -70 91 -210 128 -312 110 -308 192 -438 309 -496 62 -30 70 -51 29 -83 -62 -49 -161 -34 -231 35 -48 49 -114 173 -167 319 -82 222 -160 422 -181 465 l-23 45 -17 -40 c-9 -22 -66 -175 -127 -340 -172 -468 -229 -585 -333 -691 -67 -68 -125 -94 -209 -94 -115 1 -220 100 -138 131 150 57 261 173 368 389 58 116 83 177 155 389 200 582 420 931 738 1171 l34 26 -20 39 c-21 41 -38 85 -168 415 -43 107 -93 226 -112 265 -93 185 -211 320 -341 388 -83 43 -118 53 -257 73 -161 23 -215 60 -215 149 0 89 63 135 183 135 166 0 322 -67 455 -195 153 -146 262 -341 443 -795 176 -442 268 -613 403 -746 66 -65 176 -134 213 -134 11 0 13 175 13 1024 0 700 -3 1034 -11 1053 -24 65 -84 106 -209 143 -41 13 -81 27 -87 33 -14 10 -18 69 -6 80 4 4 191 6 416 5 362 -3 411 -5 420 -19z" />
+            </g>
+            <circle class="dots" cx="200" cy="200" r="170" />
+          </svg>
+    </div>
+    <section class="contenu">
+      <h1 class="logo">IZAALY</h1>
+      <p class="accroche">Le site ouvre ses portes</p>
+
+      <div class="compteur" role="timer" aria-live="off">
+        <div class="bloc"><span class="nombre" id="jours">--</span><span class="unite">jours</span></div>
+        <div class="bloc"><span class="nombre" id="heures">--</span><span class="unite">heures</span></div>
+        <div class="bloc"><span class="nombre" id="minutes">--</span><span class="unite">minutes</span></div>
+        <div class="bloc"><span class="nombre" id="secondes">--</span><span class="unite">secondes</span></div>
+      </div>
+
+      <p class="phrase" id="phrase">Ouverture dans&nbsp;…</p>
+      <p class="date">Mercredi 11 novembre 2026, à 18h30</p>
+
+      <p class="note">Chaque pièce inédite n’existe qu’en un seul exemplaire. Soyez là dès 18h30.</p>
+      <button class="agenda" id="agenda" type="button">Ajouter à mon agenda</button>
+
+      <p class="signature">Bijoux personnalisés et sur mesure, façonnés à la main à partir de votre histoire.</p>
+    </section>
+    <div class="visuel">
+      <div class="scene">
+        <img class="fond" src="./assets/img/fond-logo.png" alt="" aria-hidden="true">
+        <div class="logo-anime bespoke-art" id="logoAnime">
+<svg viewBox="0 0 400 400" role="img" aria-label="Logo IZAALY">
+            <circle cx="200" cy="200" r="190" pathLength="1" />
+            <circle cx="200" cy="200" r="150" pathLength="1" />
+            <g transform="translate(200 200) scale(0.0342 -0.0342) translate(-5340 -5632)">
+              <path class="logo-mark" pathLength="1"
+                d="M5517 8084 c106 -51 157 -175 121 -296 -15 -51 -77 -121 -131 -147 -94 -45 -229 -16 -295 65 -32 38 -62 116 -62 159 0 45 31 123 66 163 77 90 185 110 301 56z m296 -815 c5 -9 7 -28 3 -42 -5 -22 -18 -29 -104 -56 -108 -33 -172 -73 -199 -123 -17 -31 -18 -96 -21 -1071 l-2 -1038 22 6 c80 22 174 81 248 155 134 134 181 216 495 865 173 360 306 541 475 650 167 108 391 145 501 83 70 -39 89 -146 36 -196 -38 -36 -96 -53 -211 -62 -173 -14 -284 -56 -386 -147 -144 -127 -221 -252 -400 -648 -45 -99 -99 -213 -120 -253 l-38 -73 117 -117 c65 -64 145 -155 178 -202 155 -216 290 -519 388 -870 147 -525 263 -739 456 -841 50 -27 63 -38 61 -54 -9 -52 -72 -85 -162 -85 -105 0 -185 50 -255 160 -75 118 -125 247 -231 600 -99 328 -155 491 -167 487 -15 -5 -82 -162 -160 -377 -88 -239 -122 -319 -167 -388 -45 -71 -89 -107 -152 -123 -39 -11 -52 -10 -90 4 -38 15 -68 47 -68 71 0 2 25 16 55 30 116 57 204 193 299 461 70 196 113 300 167 402 27 50 49 97 49 104 0 20 -99 210 -154 294 -53 82 -186 245 -227 279 -22 19 -23 19 -46 -10 -158 -191 -286 -284 -452 -330 l-61 -17 0 -651 c0 -445 4 -664 11 -691 20 -72 89 -117 242 -160 61 -18 83 -41 73 -80 -3 -12 -16 -25 -28 -29 -41 -11 -778 -7 -799 4 -20 11 -26 54 -11 78 5 7 41 21 81 32 128 36 197 81 220 143 7 19 11 246 11 691 l0 663 -82 31 c-46 17 -112 50 -148 74 -80 51 -192 163 -249 247 l-43 63 -31 -28 c-67 -60 -171 -172 -225 -244 -62 -81 -199 -311 -209 -348 -4 -17 13 -61 55 -150 34 -70 91 -210 128 -312 110 -308 192 -438 309 -496 62 -30 70 -51 29 -83 -62 -49 -161 -34 -231 35 -48 49 -114 173 -167 319 -82 222 -160 422 -181 465 l-23 45 -17 -40 c-9 -22 -66 -175 -127 -340 -172 -468 -229 -585 -333 -691 -67 -68 -125 -94 -209 -94 -115 1 -220 100 -138 131 150 57 261 173 368 389 58 116 83 177 155 389 200 582 420 931 738 1171 l34 26 -20 39 c-21 41 -38 85 -168 415 -43 107 -93 226 -112 265 -93 185 -211 320 -341 388 -83 43 -118 53 -257 73 -161 23 -215 60 -215 149 0 89 63 135 183 135 166 0 322 -67 455 -195 153 -146 262 -341 443 -795 176 -442 268 -613 403 -746 66 -65 176 -134 213 -134 11 0 13 175 13 1024 0 700 -3 1034 -11 1053 -24 65 -84 106 -209 143 -41 13 -81 27 -87 33 -14 10 -18 69 -6 80 4 4 191 6 416 5 362 -3 411 -5 420 -19z" />
+            </g>
+            <circle class="dots" cx="200" cy="200" r="170" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+  // Lance l'animation du logo au chargement
+  requestAnimationFrame(() => document.querySelectorAll(".bespoke-art").forEach(el => el.classList.add("in")));
+
+  // Ouverture : 11 novembre 2026, 18h30, heure de Paris (UTC+1 en novembre)
+  const OUVERTURE = new Date("2026-11-11T18:30:00+01:00");
+
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2, "0");
+  const pluriel = (n, mot) => `${n} ${mot}${n > 1 ? "s" : ""}`;
+
+  function maj() {
+    const reste = OUVERTURE - new Date();
+
+    if (reste <= 0) {
+      ["jours", "heures", "minutes", "secondes"].forEach(id => $(id).textContent = "00");
+      $("phrase").textContent = "Le site est ouvert. Bienvenue chez IZAALY.";
+      clearInterval(minuteur);
+      return;
+    }
+
+    const s = Math.floor(reste / 1000);
+    const j = Math.floor(s / 86400);
+    const h = Math.floor((s % 86400) / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+
+    $("jours").textContent = pad(j);
+    $("heures").textContent = pad(h);
+    $("minutes").textContent = pad(m);
+    $("secondes").textContent = pad(sec);
+    $("phrase").textContent =
+      `Ouverture dans ${pluriel(j, "jour")}, ${pluriel(h, "heure")} et ${pluriel(m, "minute")}.`;
+  }
+  maj();
+  const minuteur = setInterval(maj, 1000);
+
+  // Ajouter à l'agenda : génère un fichier .ics (compatible Apple, Google, Outlook)
+  $("agenda").addEventListener("click", () => {
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//IZAALY//Ouverture//FR",
+      "BEGIN:VEVENT",
+      "UID:ouverture-izaaly-20261111@izaaly",
+      "DTSTAMP:20261110T000000Z",
+      "DTSTART:20261111T173000Z",
+      "DTEND:20261111T183000Z",
+      "SUMMARY:Ouverture du site IZAALY",
+      "DESCRIPTION:Chaque pièce inédite n’existe qu’en un seul exemplaire. Soyez là dès 18h30.",
+      "BEGIN:VALARM",
+      "TRIGGER:-PT15M",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:Ouverture du site IZAALY dans 15 minutes",
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "ouverture-izaaly.ics";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+</script>
+</body>
+</html>

@@ -280,7 +280,7 @@
   document.getElementById('adm-social').onclick = () => settings('Réseaux sociaux',
     'Collez l\u2019adresse complète (https://…). Laissez vide pour masquer un réseau sur tout le site.',
     [['social.instagram', 'Instagram', 'https://instagram.com/izaaly'], ['social.tiktok', 'TikTok', 'https://tiktok.com/@izaaly'],
-    ['social.pinterest', 'Pinterest', 'https://pinterest.com/izaaly'], ['social.handle', 'Pseudo affiché (bandeau défilant)', '@izaaly']],
+    ['social.facebook', 'Facebook', 'https://www.facebook.com/people/Izaaly-Collections/61576125283925'], ['social.handle', 'Pseudo affiché (bandeau défilant)', '@izaaly']],
     rows => rows.some(r => r.key !== 'social.handle' && r.value && !/^https?:\/\/\S+$/i.test(r.value)) ? 'Chaque lien doit commencer par https://' : '');
 
   document.getElementById('adm-form').onclick = () => settings('Formulaire de contact',
